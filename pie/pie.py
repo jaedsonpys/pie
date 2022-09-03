@@ -52,6 +52,12 @@ class Pie(object):
         with open(self.pieces_file, 'w') as writer:
             json.dump(pieces_object, writer, indent=4)
 
+    def _get_file_hash(self, filepath: str) -> str:
+        with open(filepath, 'rb') as reader:
+            content = reader.read()
+
+        return hashlib.md5(content).hexdigest()
+
     def create_repository(self, author: str, author_email: str) -> None:
         """Create a new repository.
 
@@ -84,9 +90,3 @@ class Pie(object):
 
         self._write_repo_info(repository_info)
         self._write_pieces_refs(pieces_object)
-
-    def get_file_hash(self, filepath: str) -> str:
-        with open(filepath, 'rb') as reader:
-            content = reader.read()
-
-        return hashlib.md5(content).hexdigest()
