@@ -18,6 +18,9 @@ class TestPie(bupytest.UnitTest):
         if os.path.isdir('tests/pie-test'):
             shutil.rmtree('tests/pie-test')
 
+        if os.path.isdir('.pie'):
+            shutil.rmtree('.pie')
+
         os.mkdir('tests/pie-test')
 
         with open('tests/pie-test/01.txt', 'w') as writer:
