@@ -108,3 +108,14 @@ class Pie(object):
         pieces_refs['tracked'][filepath] = file_info
 
         self._write_pieces_refs(pieces_refs)
+
+    def _index_file_lines(self, filepath: str) -> dict:
+        with open(filepath, 'r') as reader:
+            file = reader.readlines()
+
+        file_lines = {}
+
+        for line, text in enumerate(file):
+            file_lines[line] = text
+
+        return file_lines
