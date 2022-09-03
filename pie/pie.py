@@ -67,3 +67,9 @@ class Pie(object):
 
         with open(self.pieces_file, 'w') as writer:
             json.dump(pieces_object, writer, indent=4)
+
+    def get_file_hash(self, filepath: str) -> str:
+        with open(filepath, 'rb') as reader:
+            content = reader.read()
+
+        return hashlib.md5(content).hexdigest()
