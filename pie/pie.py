@@ -90,3 +90,17 @@ class Pie(object):
 
         self._write_repo_info(repository_info)
         self._write_pieces_refs(pieces_object)
+
+    def track_file(self, filepath: str) -> None:
+        if not os.path.isfile(filepath):
+            raise FileNotFoundError(f'File "{filepath}" not found')
+
+        file_info = {
+            'filename': filepath,
+            'hash': self.get_file_hash(filepath)
+        }
+
+        pieces_refs = self._get_pieces_refs()
+        pieces_refs[filepath] = file_info
+
+        self._write_pieces_refs(pieces_refs)
