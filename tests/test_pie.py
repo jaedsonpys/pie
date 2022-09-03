@@ -43,8 +43,28 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(len(repository_info['key']), 64)
         self.assert_expected(repository_info['remote'], None)
 
-        # temporary removal
-        shutil.rmtree('.pie')
+    def test_track_file(self):
+        self.pie.track_file('tests/pie-test/01.txt')
+        self.pie.track_file('tests/pie-test/02.txt')
+
+        pieces_refs = self.pie._get_pieces_refs()
+        tracked_files = pieces_refs['tracked']
+
+        self.assert_expected(
+            value=tracked_files['tests/pie-test/01.txt'],
+            expected={
+                'filename': 'tests/pie-test/01.txt',
+                'hash': self.pie._get_file_hash('tests/pie-test/01.txt')
+            }
+        )
+
+        self.assert_expected(
+            value=tracked_files['tests/pie-test/02.txt'],
+            expected={
+                'filename': 'tests/pie-test/02.txt',
+                'hash': self.pie._get_file_hash('tests/pie-test/02.txt')
+            }
+        )
 
 
 if __name__ == '__main__':
