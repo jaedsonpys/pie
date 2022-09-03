@@ -101,6 +101,6 @@ class Pie(object):
         }
 
         pieces_refs = self._get_pieces_refs()
-        pieces_refs[filepath] = file_info
+        pieces_refs['tracked'][filepath] = file_info
 
         self._write_pieces_refs(pieces_refs)
