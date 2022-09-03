@@ -6,3 +6,7 @@ __pycache
 *.egg-info
 build
 dist
+
+# tests
+.pie
+run.py
