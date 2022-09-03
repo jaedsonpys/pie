@@ -31,6 +31,12 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(len(repository_info['key']), 64)
         self.assert_expected(repository_info['remote'], None)
 
+        # temporary removal
+        os.remove('.pie/.info')
+        os.remove('.pie/pieces.json')
+        os.rmdir('.pie/pieces')
+        os.rmdir('.pie')
+
 
 if __name__ == '__main__':
     bupytest.this()
