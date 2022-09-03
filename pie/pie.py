@@ -44,6 +44,14 @@ class Pie(object):
 
         return pieces_refs
 
+    def _write_repo_info(self, repository_info: dict) -> None:
+        with open(self.repository_info_file, 'w') as writer:
+            json.dump(repository_info, writer, indent=4)
+
+    def _write_pieces_refs(self, pieces_object: dict) -> None:
+        with open(self.pieces_file, 'w') as writer:
+            json.dump(pieces_object, writer, indent=4)
+
     def create_repository(self, author: str, author_email: str) -> None:
         """Create a new repository.
 
@@ -74,11 +82,8 @@ class Pie(object):
             'commits': {}
         }
 
-        with open(self.repository_info_file, 'w') as writer:
-            json.dump(repository_info, writer, indent=4)
-
-        with open(self.pieces_file, 'w') as writer:
-            json.dump(pieces_object, writer, indent=4)
+        self._write_repo_info(repository_info)
+        self._write_pieces_refs(pieces_object)
 
     def get_file_hash(self, filepath: str) -> str:
         with open(filepath, 'rb') as reader:
