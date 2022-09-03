@@ -50,8 +50,7 @@ class TestPie(bupytest.UnitTest):
         self.pie.track_file('tests/pie-test/01.txt')
         self.pie.track_file('tests/pie-test/02.txt')
 
-        pieces_refs = self.pie._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
+        tracked_files = self.pie.get_tracked_files()
 
         self.assert_expected(
             value=tracked_files['tests/pie-test/01.txt'],
