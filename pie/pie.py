@@ -9,6 +9,8 @@ from . import exceptions
 
 class Pie(object):
     def __init__(self) -> None:
+        """Creating a new instance from Pie."""
+
         self.repository_path = os.path.join(os.getcwd(), '.pie')
         self.repository_info_file = os.path.join(self.repository_path, '.info')
 
