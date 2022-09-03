@@ -8,6 +8,10 @@ from . import exceptions
 
 
 class Pie(object):
+    def __init__(self) -> None:
+        self.repository_path = os.path.join(os.getcwd(), '.pie')
+        self.repository_info_file = os.path.join(self.repository_path, '.info')
+
     def create_repository(self, author: str, author_email: str) -> None:
         """Create a new repository.
 
@@ -18,12 +22,10 @@ class Pie(object):
         :raises exceptions.RepositoryExistsError: Thrown if repository already exists.
         """
 
-        repository_path = os.path.join(os.getcwd(), '.pie')
+        if os.path.isdir(self.repository_path):
+            raise exceptions.RepositoryExistsError(f'Repository exists in "{self.repository_path}"')
 
-        if os.path.isdir(repository_path):
-            raise exceptions.RepositoryExistsError(f'Repository exists in "{repository_path}"')
-
-        os.mkdir(repository_path)
+        os.mkdir(self.repository_path)
         key = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
 
         repository_info = {
@@ -33,7 +35,5 @@ class Pie(object):
             'remote': None
         }
 
-        repository_info_file = os.path.join(repository_path, '.info')
-
-        with open(repository_info_file, 'w') as writer:
+        with open(self.repository_info_file, 'w') as writer:
             json.dump(repository_info, writer, indent=4)
