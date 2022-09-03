@@ -48,9 +48,9 @@ class Pie(object):
         with open(self.repository_info_file, 'w') as writer:
             json.dump(repository_info, writer, indent=4)
 
-    def _write_pieces_refs(self, pieces_object: dict) -> None:
+    def _write_pieces_refs(self, pieces_refs: dict) -> None:
         with open(self.pieces_file, 'w') as writer:
-            json.dump(pieces_object, writer, indent=4)
+            json.dump(pieces_refs, writer, indent=4)
 
     def _get_file_hash(self, filepath: str) -> str:
         with open(filepath, 'rb') as reader:
