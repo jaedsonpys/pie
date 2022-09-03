@@ -29,6 +29,8 @@ class Pie(object):
 
         self.repository_path = os.path.join(os.getcwd(), '.pie')
         self.repository_info_file = os.path.join(self.repository_path, '.info')
+        self.pieces_file = os.path.join(self.repository_path, 'pieces.json')
+        self.pieces_dir = os.path.join(self.repository_path, 'pieces')
 
     def create_repository(self, author: str, author_email: str) -> None:
         """Create a new repository.
@@ -44,6 +46,8 @@ class Pie(object):
             raise exceptions.RepositoryExistsError(f'Repository exists in "{self.repository_path}"')
 
         os.mkdir(self.repository_path)
+        os.mkdir(self.pieces_dir)
+
         key = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
 
         repository_info = {
@@ -53,5 +57,13 @@ class Pie(object):
             'remote': None
         }
 
+        pieces_object = {
+            'tracked': {},
+            'commits': {}
+        }
+
         with open(self.repository_info_file, 'w') as writer:
             json.dump(repository_info, writer, indent=4)
+
+        with open(self.pieces_file, 'w') as writer:
+            json.dump(pieces_object, writer, indent=4)
