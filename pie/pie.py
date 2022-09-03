@@ -9,6 +9,15 @@ from . import exceptions
 
 class Pie(object):
     def create_repository(self, author: str, author_email: str) -> None:
+        """Create a new repository.
+
+        :param author: Commits author.
+        :type author: str
+        :param author_email: Email of commits author.
+        :type author_email: str
+        :raises exceptions.RepositoryExistsError: Thrown if repository already exists.
+        """
+
         repository_path = os.path.join(os.getcwd(), '.pie')
 
         if os.path.isdir(repository_path):
