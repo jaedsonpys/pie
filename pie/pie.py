@@ -116,6 +116,9 @@ class Pie(object):
         file_lines = {}
 
         for line, text in enumerate(file):
+            text = text.replace('\r', '')
+            text = text.replace('\n', '')
+
             file_lines[line] = text
 
         return file_lines
