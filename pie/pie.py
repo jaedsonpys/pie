@@ -32,6 +32,18 @@ class Pie(object):
         self.pieces_file = os.path.join(self.repository_path, 'pieces.json')
         self.pieces_dir = os.path.join(self.repository_path, 'pieces')
 
+    def _get_repo_info(self) -> dict:
+        with open(self.repository_info_file, 'r') as reader:
+            repo_info = json.load(reader)
+
+        return repo_info
+
+    def _get_pieces_refs(self) -> dict:
+        with open(self.pieces_file, 'r') as reader:
+            pieces_refs = json.load(reader)
+
+        return pieces_refs
+
     def create_repository(self, author: str, author_email: str) -> None:
         """Create a new repository.
 
