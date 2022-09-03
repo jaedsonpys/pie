@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import shutil
 
 import bupytest
 
@@ -13,6 +14,17 @@ class TestPie(bupytest.UnitTest):
         super().__init__()
 
         self.pie = pie.Pie()
+        
+        if os.path.isdir('tests/pie-test'):
+            shutil.rmtree('tests/pie-test')
+
+        os.mkdir('tests/pie-test')
+
+        with open('tests/pie-test/01.txt', 'w') as writer:
+            writer.write('Hello world!')
+
+        with open('tests/pie-test/02.txt', 'w') as writer:
+            writer.write('Good morning.')
 
     def test_create_repository(self):
         author = 'Jaedson'
@@ -32,10 +44,7 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(repository_info['remote'], None)
 
         # temporary removal
-        os.remove('.pie/.info')
-        os.remove('.pie/pieces.json')
-        os.rmdir('.pie/pieces')
-        os.rmdir('.pie')
+        shutil.rmtree('.pie')
 
 
 if __name__ == '__main__':
