@@ -95,10 +95,24 @@ class Pie(object):
         self._write_pieces_refs(pieces_object)
 
     def get_tracked_files(self) -> dict:
+        """Get the tracked files
+
+        :return: Returns a dictionary with the
+        tracked file information.
+        :rtype: dict
+        """
+
         pieces_refs = self._get_pieces_refs()
         return pieces_refs['tracked']
 
     def track_file(self, filepath: str) -> None:
+        """Adds a new file to the trace.
+
+        :param filepath: File path.
+        :type filepath: str
+        :raises FileNotFoundError: If the file is not found.
+        """
+
         if not os.path.isfile(filepath):
             raise FileNotFoundError(f'File "{filepath}" not found')
 
@@ -113,6 +127,14 @@ class Pie(object):
         self._write_pieces_refs(pieces_refs)
 
     def index_file_lines(self, filepath: str) -> dict:
+        """Numbers the lines of the file in a dictionary
+
+        :param filepath: File path.
+        :type filepath: str
+        :return: Return the file lines.
+        :rtype: dict
+        """
+
         with open(filepath, 'r') as reader:
             file = reader.readlines()
 
@@ -127,6 +149,20 @@ class Pie(object):
         return file_lines
 
     def get_lines_difference(self, previous_lines: dict, current_lines: dict) -> dict:
+        """Gets the difference between two
+        dictionaries with numbered lines.
+
+        If there is a `None` value, it means
+        that the line has been deleted.
+
+        :param previous_lines: Preivous lines.
+        :type previous_lines: dict
+        :param current_lines: Current lines.
+        :type current_lines: dict
+        :return: Returns the difference between the two dictionaries.
+        :rtype: dict
+        """
+
         diff = {}
 
         # the following loop is needed to "remove" the
@@ -179,6 +215,17 @@ class Pie(object):
         return piece_info
 
     def join_file_changes(self, filepath: str) -> dict:
+        """Merge all committed changes from the
+        file into a single dictionary with numbered lines.
+
+        :param filepath: Path of the file to be merged
+        :type filepath: str
+        :raises exceptions.CommitIntegrityError: If the commits have been
+        altered by a third party, the integrity is broken.
+        :return: Merged lines.
+        :rtype: dict
+        """
+
         pieces_refs = self._get_pieces_refs()
         file = pieces_refs['tracked'][filepath]
 
@@ -270,6 +317,16 @@ class Pie(object):
         return hashlib.sha256(piece_json).hexdigest()
 
     def commit(self, filepath_list: str, message: str) -> dict:
+        """Commit the files.
+
+        :param filepath_list: List of files that have changed.
+        :type filepath_list: str
+        :param message: Commit message.
+        :type message: str
+        :return: Return the commit data.
+        :rtype: dict
+        """
+
         pieces_refs = self._get_pieces_refs()
         tracked_files = pieces_refs['tracked']
 
