@@ -190,7 +190,7 @@ class Pie(object):
         commit = {
             'author': repo_info['author'],
             'author_email': repo_info['author_email'],
-            'comment': message,
+            'message': message,
             'datetime': datetime.now().strftime('%Y.%m.%d %H:%M:%S'),
             'files': files_refs
         }
