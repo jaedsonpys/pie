@@ -167,6 +167,81 @@ class TestPie(bupytest.UnitTest):
             }
         )
 
+    def test_commit_2(self):
+        with open('tests/pie-test/01.txt', 'w') as writer:
+            writer.write('Hello world!\nHow are you?')
+
+        self.pie.commit(['tests/pie-test/01.txt'], 'adding new line')
+
+        pieces_refs = self.pie._get_pieces_refs()
+        repo_info = self.pie._get_repo_info()
+        tracked_files = pieces_refs['tracked']
+        commits = pieces_refs['commits']
+
+        file_01_commits = tracked_files['tests/pie-test/01.txt']['commits']
+        
+        self.assert_expected(len(file_01_commits), 2)
+        commit_info = commits[file_01_commits[1]]
+
+        self.assert_expected(commit_info['author'], 'Jaedson')
+        self.assert_expected(commit_info['author_email'], 'imunknowuser@protonmail.com')
+        self.assert_expected(commit_info['message'], 'adding new line')
+
+        piece_id_01 = commit_info['files']['tests/pie-test/01.txt']
+
+        with open(f'.pie/pieces/{piece_id_01}', 'r') as reader:
+            piece_token_01 = reader.read()
+
+        piece_info_01 = utoken.decode(piece_token_01, repo_info['key'])
+        piece_lines_01 = piece_info_01['lines']
+
+        # right below it is checked what has
+        # been changed from the file.
+        self.assert_expected(
+            value=piece_lines_01,
+            expected={
+                '1': 'How are you?'
+            }
+        )
+
+    def test_commit_3(self):
+        with open('tests/pie-test/02.txt', 'w') as writer:
+            writer.write('Good morning.\nHow are you?')
+
+        self.pie.commit(['tests/pie-test/02.txt'], 'adding new line')
+
+        pieces_refs = self.pie._get_pieces_refs()
+        repo_info = self.pie._get_repo_info()
+        tracked_files = pieces_refs['tracked']
+        commits = pieces_refs['commits']
+
+        file_02_commits = tracked_files['tests/pie-test/02.txt']['commits']
+        
+        self.assert_expected(len(file_02_commits), 2)
+        commit_info = commits[file_02_commits[1]]
+
+        self.assert_expected(commit_info['author'], 'Jaedson')
+        self.assert_expected(commit_info['author_email'], 'imunknowuser@protonmail.com')
+        self.assert_expected(commit_info['message'], 'adding new line')
+
+        piece_id_02 = commit_info['files']['tests/pie-test/02.txt']
+
+        with open(f'.pie/pieces/{piece_id_02}', 'r') as reader:
+            piece_token_02 = reader.read()
+
+        piece_info_02 = utoken.decode(piece_token_02, repo_info['key'])
+        piece_lines_02 = piece_info_02['lines']
+
+        # right below it is checked what has
+        # been changed from the file.
+        self.assert_expected(
+            value=piece_lines_02,
+            expected={
+                '1': 'How are you?',
+                '2': None
+            }
+        )
+
 
 if __name__ == '__main__':
     bupytest.this()
