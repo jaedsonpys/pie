@@ -224,6 +224,26 @@ class Pie(object):
 
         return piece_id
 
+    def _get_last_piece_hash(self, filepath: str) -> str:
+        pieces_refs = self._get_pieces_refs()
+        repo_info = self._get_repo_info()
+        file = pieces_refs['tracked'][filepath]
+
+        commits = pieces_refs['commits']
+        last_commit_id = file['commits'][-1]
+
+        commit_info = commits[last_commit_id]
+        piece_id = commit_info['files'][filepath]
+        piece_filepath = os.path.join(self.pieces_dir, piece_id)
+
+        with open(piece_filepath, 'r') as reader:
+            piece_token = reader.read()
+
+        piece_info = utoken.decode(piece_token, repo_info['key'])
+        piece_json = json.dumps(piece_info).encode()
+
+        return hashlib.sha256(piece_json).hexdigest()
+
     def commit(self, filepath_list: str, message: str) -> bool:
         pieces_refs = self._get_pieces_refs()
         tracked_files = pieces_refs['tracked']
@@ -237,10 +257,11 @@ class Pie(object):
                 if not file_info['commits']:
                     file_refs[filepath] = self._create_piece(0, self.index_file_lines(filepath))
                 else:
+                    previous_hash = self._get_last_piece_hash(filepath)
                     previous_lines = self.join_file_changes(filepath)
                     current_lines = self.index_file_lines(filepath)
 
                     lines_difference = self.get_lines_difference(previous_lines, current_lines)
-                    file_refs[filepath] = self._create_piece(0, lines_difference)
+                    file_refs[filepath] = self._create_piece(previous_hash, lines_difference)
 
         self._create_commit(file_refs, message)
