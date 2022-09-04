@@ -173,3 +173,28 @@ class Pie(object):
 
         pieces_refs['commits'][commit_hash] = commit
         self._write_pieces_refs(pieces_refs)
+
+    def commit(self, filepath_list: str, message: str) -> bool:
+        repo_info = self._get_repo_info()
+        pieces_refs = self._get_pieces_refs()
+        tracked_files = pieces_refs['tracked']
+
+        file_refs = {}
+
+        for filepath in filepath_list:
+            file_info = tracked_files.get(filepath)
+
+            if file_info:
+                if not file_info['commits']:
+                    file_lines = self.index_file_lines(filepath)
+                    lines_token = utoken.encode(file_lines, repo_info['key'])
+
+                    piece_id = hashlib.md5(secrets.token_bytes(32)).hexdigest()
+                    piece_path = os.path.join(self.pieces_dir, piece_id)
+
+                    with open(piece_path, 'w') as writer:
+                        writer.write(lines_token)
+
+                    file_refs[filepath] = piece_id
+
+        self._create_commit(file_refs, message)
