@@ -147,8 +147,11 @@ class TestPie(bupytest.UnitTest):
         with open(f'.pie/pieces/{piece_id_02}', 'r') as reader:
             piece_token_02 = reader.read()
 
-        piece_lines_01 = utoken.decode(piece_token_01, repo_info['key'])
-        piece_lines_02 = utoken.decode(piece_token_02, repo_info['key'])
+        piece_info_01 = utoken.decode(piece_token_01, repo_info['key'])
+        piece_info_02 = utoken.decode(piece_token_02, repo_info['key'])
+
+        piece_lines_01 = piece_info_01['lines']
+        piece_lines_02 = piece_info_02['lines']
 
         self.assert_expected(
             value=piece_lines_01,

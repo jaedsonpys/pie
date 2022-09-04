@@ -216,14 +216,18 @@ class Pie(object):
 
             if file_info:
                 if not file_info['commits']:
-                    file_lines = self.index_file_lines(filepath)
-                    lines_token = utoken.encode(file_lines, repo_info['key'])
+                    piece_info = {
+                        'previous_hash': 0,
+                        'lines': self.index_file_lines(filepath),
+                    }
+
+                    piece_info = utoken.encode(piece_info, repo_info['key'])
 
                     piece_id = hashlib.md5(secrets.token_bytes(32)).hexdigest()
                     piece_path = os.path.join(self.pieces_dir, piece_id)
 
                     with open(piece_path, 'w') as writer:
-                        writer.write(lines_token)
+                        writer.write(piece_info)
 
                     file_refs[filepath] = piece_id
 
