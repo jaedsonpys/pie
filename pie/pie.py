@@ -208,7 +208,7 @@ class Pie(object):
 
         return previous_lines
 
-    def _create_commit(self, files_refs: dict, message: str) -> None:
+    def _create_commit(self, files_refs: dict, message: str) -> dict:
         repo_info = self._get_repo_info()
         pieces_refs = self._get_pieces_refs()
 
@@ -228,6 +228,8 @@ class Pie(object):
 
         pieces_refs['commits'][commit_hash] = commit
         self._write_pieces_refs(pieces_refs)
+
+        return commit
 
     def _create_piece(self, previous_hash: str, lines: dict) -> str:
         repo_info = self._get_repo_info()
@@ -267,7 +269,7 @@ class Pie(object):
 
         return hashlib.sha256(piece_json).hexdigest()
 
-    def commit(self, filepath_list: str, message: str) -> bool:
+    def commit(self, filepath_list: str, message: str) -> dict:
         pieces_refs = self._get_pieces_refs()
         tracked_files = pieces_refs['tracked']
 
@@ -287,4 +289,4 @@ class Pie(object):
                     lines_difference = self.get_lines_difference(previous_lines, current_lines)
                     file_refs[filepath] = self._create_piece(previous_hash, lines_difference)
 
-        self._create_commit(file_refs, message)
+        return self._create_commit(file_refs, message)
