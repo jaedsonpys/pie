@@ -8,6 +8,8 @@ build
 dist
 
 # tests
-pie-test
 .pie
+pie-test
+performance_test
+test_performance.py
 run.py
