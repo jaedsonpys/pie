@@ -122,3 +122,30 @@ class Pie(object):
             file_lines[line] = text
 
         return file_lines
+
+    def get_lines_difference(self, previous_lines: dict, current_lines: dict) -> dict:
+        diff = {}
+
+        # the following loop is needed to "remove" the
+        # lines that have been removed from the current file
+
+        for line, text in previous_lines.items():
+            current_line = current_lines.get(line)
+
+            if current_line is None:
+                diff[line] = None
+            elif current_line != text:
+                diff[line] = text
+
+        # the loop below is needed to get new rows
+        # added that were not found in the first loop
+
+        for line, text in current_lines.items():
+            previous_line = previous_lines.get(line)
+
+            if previous_line is None:
+                diff[line] = text
+            elif previous_line != text:
+                diff[line] = text
+
+        return diff
