@@ -164,12 +164,26 @@ class Pie(object):
 
         return previous_lines
 
+    def _decode_piece_token(self, piece_token: str) -> dict:
+        integrity_exceptions = (
+                utoken.exceptions.InvalidContentTokenError,
+                utoken.exceptions.InvalidKeyError,
+                utoken.exceptions.InvalidTokenError
+        )
+
+        try:
+            piece_info = utoken.decode(piece_token, self._get_repo_info()['key'])
+        except integrity_exceptions:
+            raise exceptions.CommitIntegrityError('Broken commit integrity')
+
+        return piece_info
+
     def join_file_changes(self, filepath: str) -> dict:
         pieces_refs = self._get_pieces_refs()
-        repo_info = self._get_repo_info()
         file = pieces_refs['tracked'][filepath]
 
         commits = pieces_refs['commits']
+        previous_piece_hash = 0
         previous_lines = {}
 
         for commit_id in file['commits']:
@@ -180,7 +194,16 @@ class Pie(object):
             with open(piece_filepath, 'r') as reader:
                 piece_token = reader.read()
 
-            piece_info = utoken.decode(piece_token, repo_info['key'])
+            piece_info = self._decode_piece_token(piece_token)
+
+            if piece_info['previous_hash'] == previous_piece_hash:
+                piece_json = json.dumps(piece_info).encode()
+                piece_hash = hashlib.sha256(piece_json).hexdigest()
+
+                previous_piece_hash = piece_hash
+            else:
+                raise exceptions.CommitIntegrityError('Broken commit integrity')
+
             previous_lines = self._join_file_lines(previous_lines, piece_info['lines'])
 
         return previous_lines
@@ -239,7 +262,7 @@ class Pie(object):
         with open(piece_filepath, 'r') as reader:
             piece_token = reader.read()
 
-        piece_info = utoken.decode(piece_token, repo_info['key'])
+        piece_info = self._decode_piece_token(piece_token)
         piece_json = json.dumps(piece_info).encode()
 
         return hashlib.sha256(piece_json).hexdigest()
