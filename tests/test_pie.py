@@ -56,7 +56,7 @@ class TestPie(bupytest.UnitTest):
             value=tracked_files['tests/pie-test/01.txt'],
             expected={
                 'filename': 'tests/pie-test/01.txt',
-                'hash': self.pie._get_file_hash('tests/pie-test/01.txt')
+                'commits': []
             }
         )
 
@@ -64,7 +64,7 @@ class TestPie(bupytest.UnitTest):
             value=tracked_files['tests/pie-test/02.txt'],
             expected={
                 'filename': 'tests/pie-test/02.txt',
-                'hash': self.pie._get_file_hash('tests/pie-test/02.txt')
+                'commits': []
             }
         )
 

@@ -101,7 +101,7 @@ class Pie(object):
 
         file_info = {
             'filename': filepath,
-            'hash': self._get_file_hash(filepath)
+            'commits': []
         }
 
         pieces_refs = self._get_pieces_refs()
