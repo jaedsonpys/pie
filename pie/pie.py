@@ -14,11 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import base64
+import hashlib
 import json
-
 import os
 import secrets
-import hashlib
+
+import utoken
 
 from . import exceptions
 
@@ -149,3 +151,23 @@ class Pie(object):
                 diff[line] = text
 
         return diff
+
+    def _create_commit(self, files_refs: dict, message: str) -> None:
+        repo_info = self._get_repo_info()
+        pieces_refs = self._get_pieces_refs()
+
+        commit = {
+            'author': repo_info['author'],
+            'author_email': repo_info['author_email'],
+            'comment': message,
+            'files': files_refs
+        }
+
+        commit_json = json.dumps(commit).encode()
+        commit_hash = hashlib.sha256(commit_json).hexdigest()
+
+        for file in files_refs:
+            pieces_refs['tracked'][file]['commits'].append(commit_hash)
+
+        pieces_refs['commits'][commit_hash] = commit
+        self._write_pieces_refs(pieces_refs)
