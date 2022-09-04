@@ -153,6 +153,15 @@ class Pie(object):
 
         return diff
 
+    def _join_file_lines(self, previous_lines: dict, current_lines: dict) -> dict:
+        for line, text in current_lines.items():
+            if text == None:
+                previous_lines.pop(line)
+            else:
+                previous_lines[line] = text
+
+        return previous_lines
+
     def _create_commit(self, files_refs: dict, message: str) -> None:
         repo_info = self._get_repo_info()
         pieces_refs = self._get_pieces_refs()
