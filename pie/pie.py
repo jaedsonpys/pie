@@ -316,11 +316,11 @@ class Pie(object):
 
         return hashlib.sha256(piece_json).hexdigest()
 
-    def commit(self, filepath_list: str, message: str) -> dict:
+    def commit(self, filepath_list: list, message: str) -> dict:
         """Commit the files.
 
         :param filepath_list: List of files that have changed.
-        :type filepath_list: str
+        :type filepath_list: list
         :param message: Commit message.
         :type message: str
         :return: Return the commit data.
