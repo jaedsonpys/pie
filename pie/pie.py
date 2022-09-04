@@ -204,8 +204,25 @@ class Pie(object):
         pieces_refs['commits'][commit_hash] = commit
         self._write_pieces_refs(pieces_refs)
 
-    def commit(self, filepath_list: str, message: str) -> bool:
+    def _create_piece(self, previous_hash: str, lines: dict) -> str:
         repo_info = self._get_repo_info()
+
+        piece_info = {
+            'previous_hash': previous_hash,
+            'lines': lines,
+        }
+
+        piece_info = utoken.encode(piece_info, repo_info['key'])
+
+        piece_id = hashlib.md5(secrets.token_bytes(32)).hexdigest()
+        piece_path = os.path.join(self.pieces_dir, piece_id)
+
+        with open(piece_path, 'w') as writer:
+            writer.write(piece_info)
+
+        return piece_id
+
+    def commit(self, filepath_list: str, message: str) -> bool:
         pieces_refs = self._get_pieces_refs()
         tracked_files = pieces_refs['tracked']
 
@@ -216,19 +233,6 @@ class Pie(object):
 
             if file_info:
                 if not file_info['commits']:
-                    piece_info = {
-                        'previous_hash': 0,
-                        'lines': self.index_file_lines(filepath),
-                    }
-
-                    piece_info = utoken.encode(piece_info, repo_info['key'])
-
-                    piece_id = hashlib.md5(secrets.token_bytes(32)).hexdigest()
-                    piece_path = os.path.join(self.pieces_dir, piece_id)
-
-                    with open(piece_path, 'w') as writer:
-                        writer.write(piece_info)
-
-                    file_refs[filepath] = piece_id
+                    file_refs[filepath] = self._create_piece(0, self.index_file_lines(filepath))
 
         self._create_commit(file_refs, message)
