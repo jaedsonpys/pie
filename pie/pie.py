@@ -176,10 +176,10 @@ class Pie(object):
             piece_filepath = os.path.join(self.pieces_dir, piece_id)
 
             with open(piece_filepath, 'r') as reader:
-                file_token = reader.read()
+                piece_token = reader.read()
 
-            file_lines = utoken.decode(file_token, repo_info['key'])
-            previous_lines = self._join_file_lines(previous_lines, file_lines)
+            piece_info = utoken.decode(piece_token, repo_info['key'])
+            previous_lines = self._join_file_lines(previous_lines, piece_info['lines'])
 
         return previous_lines
 
