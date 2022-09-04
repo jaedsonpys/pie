@@ -86,6 +86,36 @@ class TestPie(bupytest.UnitTest):
             }
         )
 
+    def test_get_lines_difference(self):
+        file_lines_1 = self.pie.index_file_lines('tests/pie-test/01.txt')
+        file_lines_2 = self.pie.index_file_lines('tests/pie-test/02.txt')
+
+        file_lines_01 = {
+            0: 'Hello world!',
+            1: 'You are a programmer?'
+        }
+
+        file_lines_02 = {
+            0: 'Good morning.',
+            1: 'How are you?'
+        }
+
+        lines_01_diff = self.pie.get_lines_difference(file_lines_1, file_lines_01)
+        lines_02_diff = self.pie.get_lines_difference(file_lines_2, file_lines_02)
+
+        self.assert_expected(
+            value=lines_01_diff,
+            expected={1: 'You are a programmer?'}
+        )
+
+        self.assert_expected(
+            value=lines_02_diff,
+            expected={
+                1: 'How are you?',
+                2: None
+            }
+        )
+
 
 if __name__ == '__main__':
     bupytest.this()
