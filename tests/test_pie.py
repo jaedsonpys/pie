@@ -4,6 +4,7 @@ import json
 import shutil
 
 import bupytest
+import utoken
 
 sys.path.insert(0, './')
 from pie import pie
@@ -113,6 +114,53 @@ class TestPie(bupytest.UnitTest):
             expected={
                 1: 'How are you?',
                 2: None
+            }
+        )
+
+    def test_commit(self):
+        self.pie.commit(['tests/pie-test/01.txt', 'tests/pie-test/02.txt'], 'first commit')
+
+        pieces_refs = self.pie._get_pieces_refs()
+        repo_info = self.pie._get_repo_info()
+        tracked_files = pieces_refs['tracked']
+        commits = pieces_refs['commits']
+
+        file_01_commits = tracked_files['tests/pie-test/01.txt']['commits']
+        file_02_commits = tracked_files['tests/pie-test/02.txt']['commits']
+        
+        self.assert_expected(len(file_01_commits), 1)
+        self.assert_expected(len(file_01_commits), 1)
+        self.assert_expected(file_01_commits[0], file_02_commits[0])
+
+        commit_info = commits[file_01_commits[0]]
+
+        self.assert_expected(commit_info['author'], 'Jaedson')
+        self.assert_expected(commit_info['author_email'], 'imunknowuser@protonmail.com')
+        self.assert_expected(commit_info['message'], 'first commit')
+
+        piece_id_01 = commit_info['files']['tests/pie-test/01.txt']
+        piece_id_02 = commit_info['files']['tests/pie-test/02.txt']
+
+        with open(f'.pie/pieces/{piece_id_01}', 'r') as reader:
+            piece_token_01 = reader.read()
+
+        with open(f'.pie/pieces/{piece_id_02}', 'r') as reader:
+            piece_token_02 = reader.read()
+
+        piece_lines_01 = utoken.decode(piece_token_01, repo_info['key'])
+        piece_lines_02 = utoken.decode(piece_token_02, repo_info['key'])
+
+        self.assert_expected(
+            value=piece_lines_01,
+            expected={'0': 'Hello world!'}
+        )
+
+        self.assert_expected(
+            value=piece_lines_02,
+            expected={
+                '0': 'Good morning.',
+                '1': '',
+                '2': 'How are you?'
             }
         )
 
