@@ -109,7 +109,7 @@ class Pie(object):
 
         self._write_pieces_refs(pieces_refs)
 
-    def _index_file_lines(self, filepath: str) -> dict:
+    def index_file_lines(self, filepath: str) -> dict:
         with open(filepath, 'r') as reader:
             file = reader.readlines()
 

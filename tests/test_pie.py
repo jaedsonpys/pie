@@ -69,8 +69,8 @@ class TestPie(bupytest.UnitTest):
         )
 
     def test_index_file_lines(self):
-        file_lines_1 = self.pie._index_file_lines('tests/pie-test/01.txt')
-        file_lines_2 = self.pie._index_file_lines('tests/pie-test/02.txt')
+        file_lines_1 = self.pie.index_file_lines('tests/pie-test/01.txt')
+        file_lines_2 = self.pie.index_file_lines('tests/pie-test/02.txt')
 
         self.assert_expected(
             value=file_lines_1,
