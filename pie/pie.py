@@ -155,6 +155,8 @@ class Pie(object):
 
     def _join_file_lines(self, previous_lines: dict, current_lines: dict) -> dict:
         for line, text in current_lines.items():
+            line = int(line)
+
             if text == None:
                 previous_lines.pop(line)
             else:
@@ -234,5 +236,11 @@ class Pie(object):
             if file_info:
                 if not file_info['commits']:
                     file_refs[filepath] = self._create_piece(0, self.index_file_lines(filepath))
+                else:
+                    previous_lines = self.join_file_changes(filepath)
+                    current_lines = self.index_file_lines(filepath)
+
+                    lines_difference = self.get_lines_difference(previous_lines, current_lines)
+                    file_refs[filepath] = self._create_piece(0, lines_difference)
 
         self._create_commit(file_refs, message)
