@@ -19,6 +19,7 @@ import hashlib
 import json
 import os
 import secrets
+from datetime import datetime
 
 import utoken
 
@@ -160,6 +161,7 @@ class Pie(object):
             'author': repo_info['author'],
             'author_email': repo_info['author_email'],
             'comment': message,
+            'datetime': datetime.now().strftime('%Y.%m.%d %H:%M:%S'),
             'files': files_refs
         }
 
