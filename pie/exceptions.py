@@ -18,3 +18,8 @@
 class RepositoryExistsError(Exception):
     def __init__(self, *args):
         super().__init__(*args)
+
+
+class CommitIntegrityError(Exception):
+    def __init__(self, *args):
+        super().__init__(*args)
