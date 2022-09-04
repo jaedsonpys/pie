@@ -162,6 +162,27 @@ class Pie(object):
 
         return previous_lines
 
+    def join_file_changes(self, filepath: str) -> dict:
+        pieces_refs = self._get_pieces_refs()
+        repo_info = self._get_repo_info()
+        file = pieces_refs['tracked'][filepath]
+
+        commits = pieces_refs['commits']
+        previous_lines = {}
+
+        for commit_id in file['commits']:
+            commit_info = commits[commit_id]
+            piece_id = commit_info['files'][filepath]
+            piece_filepath = os.path.join(self.pieces_dir, piece_id)
+
+            with open(piece_filepath, 'r') as reader:
+                file_token = reader.read()
+
+            file_lines = utoken.decode(file_token, repo_info['key'])
+            previous_lines = self._join_file_lines(previous_lines, file_lines)
+
+        return previous_lines
+
     def _create_commit(self, files_refs: dict, message: str) -> None:
         repo_info = self._get_repo_info()
         pieces_refs = self._get_pieces_refs()
