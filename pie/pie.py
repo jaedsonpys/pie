@@ -20,6 +20,7 @@ import json
 import os
 import secrets
 from datetime import datetime
+from typing import List
 
 import utoken
 
@@ -336,6 +337,29 @@ class Pie(object):
         current_hash = hashlib.md5(current_file_lines_json).hexdigest()
 
         return previous_hash != current_hash
+
+    def get_files_status(self) -> List[dict]:
+        pieces_refs = self._get_pieces_refs()
+        tracked_files = pieces_refs['tracked']
+
+        files_status = []
+
+        for filepath, info in tracked_files.items():
+            if not info['commits']:
+                files_status.append({
+                    'filepath': filepath,
+                    'status': 'new'
+                })
+            else:
+                file_has_changed = self._file_has_changed(filepath)
+                
+                if file_has_changed:
+                    files_status.append({
+                        'filepath': filepath,
+                        'status': 'uncommitted'
+                    })
+
+        return files_status
 
     def commit(self, filepath_list: list, message: str) -> dict:
         """Commit the files.
