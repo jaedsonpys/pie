@@ -316,6 +316,16 @@ class Pie(object):
 
         return hashlib.sha256(piece_json).hexdigest()
 
+    def get_commits(self) -> dict:
+        """Return all commits.
+
+        :return: Commits in a dict.
+        :rtype: dict
+        """
+
+        pieces_refs = self._get_pieces_refs()
+        return pieces_refs['commits']
+
     def commit(self, filepath_list: list, message: str) -> dict:
         """Commit the files.
 

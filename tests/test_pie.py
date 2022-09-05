@@ -242,6 +242,10 @@ class TestPie(bupytest.UnitTest):
             }
         )
 
+    def test_get_commits(self):
+        commits = self.pie.get_commits()        
+        self.assert_expected(len(commits), 3)
+
 
 if __name__ == '__main__':
     bupytest.this()
