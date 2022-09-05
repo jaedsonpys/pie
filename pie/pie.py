@@ -325,6 +325,18 @@ class Pie(object):
         pieces_refs = self._get_pieces_refs()
         return pieces_refs['commits']
 
+    def _file_has_changed(self, filepath: str) -> bool:
+        previous_file_lines = self.join_file_changes(filepath)
+        current_file_lines = self.index_file_lines(filepath)
+
+        previous_file_lines_json = json.dumps(previous_file_lines).encode()
+        previous_hash = hashlib.md5(previous_file_lines_json).hexdigest()
+
+        current_file_lines_json = json.dumps(current_file_lines).encode()
+        current_hash = hashlib.md5(current_file_lines_json).hexdigest()
+
+        return previous_hash != current_hash
+
     def commit(self, filepath_list: list, message: str) -> dict:
         """Commit the files.
 
