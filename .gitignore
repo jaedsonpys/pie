@@ -1,8 +1,15 @@
 # python
 venv
-__pycache
+__pycache__
 
 # build
 *.egg-info
 build
 dist
+
+# tests
+.pie
+pie-test
+performance_test
+test_performance.py
+run.py
