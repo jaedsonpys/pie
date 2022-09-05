@@ -298,7 +298,6 @@ class Pie(object):
 
     def _get_last_piece_hash(self, filepath: str) -> str:
         pieces_refs = self._get_pieces_refs()
-        repo_info = self._get_repo_info()
         file = pieces_refs['tracked'][filepath]
 
         commits = pieces_refs['commits']
