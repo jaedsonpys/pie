@@ -246,6 +246,50 @@ class TestPie(bupytest.UnitTest):
         commits = self.pie.get_commits()        
         self.assert_expected(len(commits), 3)
 
+    def test_get_files_status(self):
+        status = self.pie.get_files_status()
+        self.assert_expected(status, [])
+
+        with open('tests/pie-test/01.txt', 'w') as writer:
+            writer.write('Hello world!')
+
+        with open('tests/pie-test/03.txt', 'w') as writer:
+            writer.write('This is Pie')
+
+        self.pie.track_file('tests/pie-test/03.txt')
+        status = self.pie.get_files_status()
+
+        self.assert_expected(
+            value=status,
+            expected=[
+                {
+                    'filepath': 'tests/pie-test/01.txt',
+                    'status': 'uncommitted'
+                },
+                {
+                    'filepath': 'tests/pie-test/03.txt',
+                    'status': 'new'
+                }
+            ]
+        )
+
+        self.pie.commit(['tests/pie-test/01.txt'], 'removing lines')
+
+        status = self.pie.get_files_status()
+        self.assert_expected(
+            value=status,
+            expected=[
+                {
+                    'filepath': 'tests/pie-test/03.txt',
+                    'status': 'new'
+                }
+            ]
+        )
+
+        self.pie.commit(['tests/pie-test/03.txt'], 'adding new file')
+
+        status = self.pie.get_files_status()
+        self.assert_expected(status, [])
 
 if __name__ == '__main__':
     bupytest.this()
