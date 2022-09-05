@@ -8,7 +8,7 @@ with open('README.md', 'r') as reader:
 setup(
     author='Jaedson Silva',
     author_email='imunknowuser@protonmail.com',
-    name='pie',
+    name='pie-cli',
     description='Pie, a complete version control.',
     long_description=readme,
     long_description_content_type='text/markdown',
