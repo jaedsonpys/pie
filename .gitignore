@@ -9,6 +9,7 @@ dist
 
 # tests
 .pie
+.ignore
 pie-test
 performance_test
 test_performance.py
