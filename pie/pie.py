@@ -117,6 +117,9 @@ class Pie(object):
         if not os.path.isfile(filepath):
             raise FileNotFoundError(f'File "{filepath}" not found')
 
+        if './' not in filepath:
+            filepath = os.path.join('.', filepath)
+
         file_info = {
             'filename': filepath,
             'commits': []
@@ -378,6 +381,9 @@ class Pie(object):
         file_refs = {}
 
         for filepath in filepath_list:
+            if './' not in filepath:
+                filepath = os.path.join('.', filepath)
+
             file_info = tracked_files.get(filepath)
 
             if file_info:

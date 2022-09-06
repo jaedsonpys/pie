@@ -54,17 +54,17 @@ class TestPie(bupytest.UnitTest):
         tracked_files = self.pie.get_tracked_files()
 
         self.assert_expected(
-            value=tracked_files['tests/pie-test/01.txt'],
+            value=tracked_files['./tests/pie-test/01.txt'],
             expected={
-                'filename': 'tests/pie-test/01.txt',
+                'filename': './tests/pie-test/01.txt',
                 'commits': []
             }
         )
 
         self.assert_expected(
-            value=tracked_files['tests/pie-test/02.txt'],
+            value=tracked_files['./tests/pie-test/02.txt'],
             expected={
-                'filename': 'tests/pie-test/02.txt',
+                'filename': './tests/pie-test/02.txt',
                 'commits': []
             }
         )
@@ -125,8 +125,8 @@ class TestPie(bupytest.UnitTest):
         tracked_files = pieces_refs['tracked']
         commits = pieces_refs['commits']
 
-        file_01_commits = tracked_files['tests/pie-test/01.txt']['commits']
-        file_02_commits = tracked_files['tests/pie-test/02.txt']['commits']
+        file_01_commits = tracked_files['./tests/pie-test/01.txt']['commits']
+        file_02_commits = tracked_files['./tests/pie-test/02.txt']['commits']
         
         self.assert_expected(len(file_01_commits), 1)
         self.assert_expected(len(file_01_commits), 1)
@@ -138,8 +138,8 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(commit_info['author_email'], 'imunknowuser@protonmail.com')
         self.assert_expected(commit_info['message'], 'first commit')
 
-        piece_id_01 = commit_info['files']['tests/pie-test/01.txt']
-        piece_id_02 = commit_info['files']['tests/pie-test/02.txt']
+        piece_id_01 = commit_info['files']['./tests/pie-test/01.txt']
+        piece_id_02 = commit_info['files']['./tests/pie-test/02.txt']
 
         with open(f'.pie/pieces/{piece_id_01}', 'r') as reader:
             piece_token_01 = reader.read()
@@ -178,7 +178,7 @@ class TestPie(bupytest.UnitTest):
         tracked_files = pieces_refs['tracked']
         commits = pieces_refs['commits']
 
-        file_01_commits = tracked_files['tests/pie-test/01.txt']['commits']
+        file_01_commits = tracked_files['./tests/pie-test/01.txt']['commits']
         
         self.assert_expected(len(file_01_commits), 2)
         commit_info = commits[file_01_commits[1]]
@@ -187,7 +187,7 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(commit_info['author_email'], 'imunknowuser@protonmail.com')
         self.assert_expected(commit_info['message'], 'adding new line')
 
-        piece_id_01 = commit_info['files']['tests/pie-test/01.txt']
+        piece_id_01 = commit_info['files']['./tests/pie-test/01.txt']
 
         with open(f'.pie/pieces/{piece_id_01}', 'r') as reader:
             piece_token_01 = reader.read()
@@ -215,7 +215,7 @@ class TestPie(bupytest.UnitTest):
         tracked_files = pieces_refs['tracked']
         commits = pieces_refs['commits']
 
-        file_02_commits = tracked_files['tests/pie-test/02.txt']['commits']
+        file_02_commits = tracked_files['./tests/pie-test/02.txt']['commits']
         
         self.assert_expected(len(file_02_commits), 2)
         commit_info = commits[file_02_commits[1]]
@@ -224,7 +224,7 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(commit_info['author_email'], 'imunknowuser@protonmail.com')
         self.assert_expected(commit_info['message'], 'adding new line')
 
-        piece_id_02 = commit_info['files']['tests/pie-test/02.txt']
+        piece_id_02 = commit_info['files']['./tests/pie-test/02.txt']
 
         with open(f'.pie/pieces/{piece_id_02}', 'r') as reader:
             piece_token_02 = reader.read()
@@ -263,11 +263,11 @@ class TestPie(bupytest.UnitTest):
             value=status,
             expected=[
                 {
-                    'filepath': 'tests/pie-test/01.txt',
+                    'filepath': './tests/pie-test/01.txt',
                     'status': 'uncommitted'
                 },
                 {
-                    'filepath': 'tests/pie-test/03.txt',
+                    'filepath': './tests/pie-test/03.txt',
                     'status': 'new'
                 }
             ]
@@ -280,7 +280,7 @@ class TestPie(bupytest.UnitTest):
             value=status,
             expected=[
                 {
-                    'filepath': 'tests/pie-test/03.txt',
+                    'filepath': './tests/pie-test/03.txt',
                     'status': 'new'
                 }
             ]
