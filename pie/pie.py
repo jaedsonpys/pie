@@ -24,6 +24,7 @@ from typing import List
 import utoken
 
 from . import exceptions
+from .ignore import get_not_ignored_files
 
 
 class Pie(object):
@@ -361,6 +362,17 @@ class Pie(object):
                         'filepath': filepath,
                         'status': 'uncommitted'
                     })
+
+        not_ignored_files = get_not_ignored_files()
+
+        for filepath in not_ignored_files:
+            filepath = os.path.join('.', filepath)
+
+            if filepath not in tracked_files.keys():
+                files_status.append({
+                    'filepath': filepath,
+                    'status': 'not-tracked'
+                })
 
         return files_status
 
