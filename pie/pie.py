@@ -144,6 +144,7 @@ class Pie(object):
 
         file_lines = {}
 
+        # removing "\n" only from the end of the line
         for line, text in enumerate(file):
             if text[-1::] == '\n':
                 text = text[:-1]
