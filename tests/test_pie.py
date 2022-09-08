@@ -253,11 +253,11 @@ class TestPie(bupytest.UnitTest):
             expected=[
                 {
                     'filepath': './.ignore',
-                    'status': 'not-tracked'
+                    'status': 'untracked'
                 },
                 {
                     'filepath': './LICENSE',
-                    'status': 'not-tracked'
+                    'status': 'untracked'
                 }
             ]
         )

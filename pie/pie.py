@@ -371,7 +371,7 @@ class Pie(object):
             if filepath not in tracked_files.keys():
                 files_status.append({
                     'filepath': filepath,
-                    'status': 'not-tracked'
+                    'status': 'untracked'
                 })
 
         return files_status
