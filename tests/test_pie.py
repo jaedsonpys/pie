@@ -248,7 +248,39 @@ class TestPie(bupytest.UnitTest):
 
     def test_get_files_status(self):
         status = self.pie.get_files_status()
-        self.assert_expected(status, [])
+        self.assert_expected(
+            value=status,
+            expected=[
+                {
+                    'filepath': './.ignore',
+                    'status': 'not-tracked'
+                },
+                {
+                    'filepath': './LICENSE',
+                    'status': 'not-tracked'
+                }
+            ]
+        )
+
+        self.pie.track_file('.ignore')
+        self.pie.track_file('LICENSE')
+        
+        status = self.pie.get_files_status()
+        self.assert_expected(
+            value=status,
+            expected=[
+                {
+                    'filepath': './.ignore',
+                    'status': 'new'
+                },
+                {
+                    'filepath': './LICENSE',
+                    'status': 'new'
+                }
+            ]
+        )
+
+        self.pie.commit(['.ignore', 'LICENSE'], 'adding LICENSE')
 
         with open('tests/pie-test/01.txt', 'w') as writer:
             writer.write('Hello world!')
