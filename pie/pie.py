@@ -410,3 +410,22 @@ class Pie(object):
                     file_refs[filepath] = self._create_piece(previous_hash, lines_difference)
 
         return self._create_commit(file_refs, message)
+
+    def merge(self) -> List[dict]:
+        pieces_refs = self._get_pieces_refs()
+        tracked_files = pieces_refs['tracked']
+
+        merged_files = []
+
+        for filepath in tracked_files.keys():
+            versioned_file = self.join_file_changes(filepath)
+            current_lines = self.index_file_lines(filepath)
+            difference = self.get_lines_difference(versioned_file, current_lines)
+
+            if difference:
+                merged_files.append(filepath)
+
+                with open(filepath, 'w') as writer:
+                    writer.write('\n'.join(versioned_file.values()))
+
+        return merged_files
