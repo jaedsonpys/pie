@@ -14,10 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from .__init__ import __version__
-from . import pie
-
 from argeasy import ArgEasy
+
+from . import exceptions
+from .__init__ import __version__
+from .pie import Pie
 
 
 def main() -> int:
@@ -43,3 +44,23 @@ def main() -> int:
     # config
     parser.add_flag('--author', 'Repository author')
     parser.add_flag('--author-email', 'Repository author email')
+
+    args = parser.parse()
+    pie = Pie()
+
+    # creating repository
+    if args.init:
+        author = args.author
+        author_email = args.authoremail
+
+        if not author or not author_email:
+            print('\033[31merror: use the "--author" and "--author-email" flag to set the author information\033[m')
+            return 1
+
+        try:
+            pie.create_repository(author, author_email)
+        except exceptions.RepositoryExistsError:
+            print('\033[31merror: a repository already exists in this directory\033[m')
+            return 1
+
+    return 0
