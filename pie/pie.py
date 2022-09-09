@@ -34,6 +34,7 @@ class Pie(object):
 
         self.repository_path = os.path.join(os.getcwd(), '.pie')
         self.repository_info_file = os.path.join(self.repository_path, '.info')
+        self.author_info_file = os.path.join(self.repository_path, '.author')
         self.pieces_file = os.path.join(self.repository_path, 'pieces.json')
         self.pieces_dir = os.path.join(self.repository_path, 'pieces')
 
@@ -49,6 +50,12 @@ class Pie(object):
 
         return pieces_refs
 
+    def _get_author_info(self) -> dict:
+        with open(self.author_info_file, 'r') as reader:
+            author_info = json.load(reader)
+
+        return author_info
+
     def _write_repo_info(self, repository_info: dict) -> None:
         with open(self.repository_info_file, 'w') as writer:
             json.dump(repository_info, writer, indent=4)
@@ -56,6 +63,14 @@ class Pie(object):
     def _write_pieces_refs(self, pieces_refs: dict) -> None:
         with open(self.pieces_file, 'w') as writer:
             json.dump(pieces_refs, writer, indent=4)
+
+    def _write_author_info(self, author: str, author_email: str) -> None:
+        with open(self.author_info_file, 'w') as writer:
+            author_info = {
+                'author': author, 'author_email': author_email
+            }
+
+            json.dump(author_info, writer, indent=4)
 
     def _get_file_hash(self, filepath: str) -> str:
         with open(filepath, 'rb') as reader:
@@ -82,8 +97,6 @@ class Pie(object):
         key = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
 
         repository_info = {
-            'author': author,
-            'author_email': author_email,
             'key': key,
             'remote': None
         }
@@ -95,6 +108,7 @@ class Pie(object):
 
         self._write_repo_info(repository_info)
         self._write_pieces_refs(pieces_object)
+        self._write_author_info(author, author_email)
 
     def get_tracked_files(self) -> dict:
         """Get the tracked files
@@ -262,12 +276,12 @@ class Pie(object):
         return previous_lines
 
     def _create_commit(self, files_refs: dict, message: str) -> dict:
-        repo_info = self._get_repo_info()
+        author_info = self._get_author_info()
         pieces_refs = self._get_pieces_refs()
 
         commit = {
-            'author': repo_info['author'],
-            'author_email': repo_info['author_email'],
+            'author': author_info['author'],
+            'author_email': author_info['author_email'],
             'message': message,
             'datetime': datetime.now().strftime('%Y.%m.%d %H:%M:%S'),
             'files': files_refs
