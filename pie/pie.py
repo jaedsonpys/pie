@@ -18,8 +18,9 @@ import hashlib
 import json
 import os
 import secrets
+from concurrent import futures
 from datetime import datetime
-from typing import List
+from typing import List, Union
 
 import utoken
 
@@ -414,7 +415,7 @@ class Pie(object):
 
         return self._create_commit(file_refs, message)
 
-    def _merge_file(self, filepath: str) -> bool:
+    def _merge_file(self, filepath: str) -> Union[bool, str]:
         versioned_file = self.join_file_changes(filepath)
         current_lines = self.index_file_lines(filepath)
         difference = self.get_lines_difference(versioned_file, current_lines)
@@ -423,7 +424,7 @@ class Pie(object):
             with open(filepath, 'w') as writer:
                 writer.write('\n'.join(versioned_file.values()))
 
-            return True
+            return filepath
         else:
             return False
 
@@ -441,10 +442,20 @@ class Pie(object):
         tracked_files = self.get_tracked_files()
         merged_files = []
 
-        for filepath in tracked_files.keys():
-            merged_file = self._merge_file(filepath)
+        # def callback(fn: futures.Future):
+        #     result = fn.result()
+        #     if result:
+        #         merged_files.append(result)
 
-            if merged_file:
-                merged_files.append(filepath)
+        with futures.ThreadPoolExecutor() as executor:
+            threads = []
+
+            for filepath in tracked_files.keys():
+                future = executor.submit(self._merge_file, filepath)
+                future.add_done_callback(lambda fn: merged_files.append(fn.result()) if fn.result() else None)
+                threads.append(future)
+
+            while not all([i.done() for i in threads]):
+                pass
 
         return merged_files
