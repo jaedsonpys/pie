@@ -62,5 +62,38 @@ def main() -> int:
         except exceptions.RepositoryExistsError:
             print('\033[31merror: a repository already exists in this directory\033[m')
             return 1
+    elif args.status:
+        status = pie.get_files_status()
+
+        uncommitted = [i for i in status if i['status'] == 'uncommitted']
+        untracked = [i for i in status if i['status'] == 'untracked']
+        new_files = [i for i in status if i['status'] == 'new']
+
+        if new_files:
+            print('newly added files, but not yet committed.')
+            print('  (use "pie commit" argument to commit files):\n')
+
+            for file in new_files:
+                print(f'    \033[32m{file["filepath"]}\033[m')
+
+            print()
+
+        if uncommitted:
+            print('uncommitted files.')
+            print('  (use "pie commit" argument to commit files):\n')
+
+            for file in uncommitted:
+                print(f'    \033[32m{file["filepath"]}\033[m')
+
+            print()
+
+        if untracked:
+            print('not added files that can be tracked.')
+            print('  (use "pie add" argument to add files):\n')
+
+            for file in untracked:
+                print(f'    \033[31m{file["filepath"]}\033[m')
+
+            print()
 
     return 0
