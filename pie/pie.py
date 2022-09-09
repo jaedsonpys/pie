@@ -343,6 +343,13 @@ class Pie(object):
         return previous_hash != current_hash
 
     def get_files_status(self) -> List[dict]:
+        """Returns the status of new, uncommitted and
+        untracked files (as long as they are not in the .ignore file).
+
+        :return: Files status
+        :rtype: List[dict]
+        """
+
         pieces_refs = self._get_pieces_refs()
         tracked_files = pieces_refs['tracked']
 
