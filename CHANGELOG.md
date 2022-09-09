@@ -32,4 +32,12 @@ Addition of new methods to get all commits done and get the status of files (to 
 
 - [febabc5](https://github.com/jaedsonpys/pie/commits/febabc5): Removing unused import;
 - [a287af4](https://github.com/jaedsonpys/pie/commits/a287af4): Adding ignore file functionality with an `.ignore` file;
-- [1b49a26](https://github.com/jaedsonpys/pie/commits/1b49a26): Adding untracked files to the status of files;
+- [1b49a26](https://github.com/jaedsonpys/pie/commits/1b49a26): Adding untracked files to the status of files.
+
+# 0.4.0
+
+Adding **new functionality** to merge files.
+
+## Major commits
+
+- [edfc679](https://github.com/jaedsonpys/pie/commits/edfc679): Adding `merge` method to merge files.
