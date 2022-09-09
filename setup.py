@@ -18,5 +18,15 @@ setup(
     packages=['pie'],
     python_requires='>=3.7',
     install_requires=['utokeniz'],
-    keywords=['control', 'version', 'versioning', 'file']
+    keywords=['version', 'control', 'versioning', 'file'],
+    classifiers=[
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Natural Language :: English',
+        'Operating System :: Unix',
+        'Programming Language :: Python :: 3',
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Version Control'
+    ]
 )
