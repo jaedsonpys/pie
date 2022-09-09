@@ -414,6 +414,19 @@ class Pie(object):
 
         return self._create_commit(file_refs, message)
 
+    def _merge_file(self, filepath: str) -> bool:
+        versioned_file = self.join_file_changes(filepath)
+        current_lines = self.index_file_lines(filepath)
+        difference = self.get_lines_difference(versioned_file, current_lines)
+
+        if difference:
+            with open(filepath, 'w') as writer:
+                writer.write('\n'.join(versioned_file.values()))
+
+            return True
+        else:
+            return False
+
     def merge(self) -> list:
         """Merge all committed files.
 
@@ -429,14 +442,9 @@ class Pie(object):
         merged_files = []
 
         for filepath in tracked_files.keys():
-            versioned_file = self.join_file_changes(filepath)
-            current_lines = self.index_file_lines(filepath)
-            difference = self.get_lines_difference(versioned_file, current_lines)
+            merged_file = self._merge_file(filepath)
 
-            if difference:
+            if merged_file:
                 merged_files.append(filepath)
-
-                with open(filepath, 'w') as writer:
-                    writer.write('\n'.join(versioned_file.values()))
 
         return merged_files
