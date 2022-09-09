@@ -41,3 +41,11 @@ Adding **new functionality** to merge files.
 ## Major commits
 
 - [edfc679](https://github.com/jaedsonpys/pie/commits/edfc679): Adding `merge` method to merge files.
+
+# 0.4.1
+
+Fixing file not found exception when getting `.ignore` file.
+
+## Major commits
+
+- [3a40d64](https://github.com/jaedsonpys/pie/commits/3a40d64): Returning empty list if `.ignore` file not exists.
