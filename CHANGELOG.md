@@ -61,3 +61,11 @@ Optimizing the process of merging files and commiting files using threads.
 - [03eaf15](https://github.com/jaedsonpys/pie/commits/03eaf15): Adding `_merge_file` method and using in `merge` method;
 - [d7ae041](https://github.com/jaedsonpys/pie/commits/d7ae041): Using threads to merge files;
 - [4ea5c39](https://github.com/jaedsonpys/pie/commits/4ea5c39): Adding thread in `commit` method to get the difference of the files.
+
+# 0.6.0
+
+Changing location of author information to a file called `.author`.
+
+## Major commits
+
+- [48c2c1b](https://github.com/jaedsonpys/pie/commits/48c2c1b): Creating `.author` file to store author info.
