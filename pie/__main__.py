@@ -28,6 +28,7 @@ def main() -> int:
     )
 
     parser.add_argument('init', 'Create a new repository', action='store_true')
+    parser.add_argument('config', 'Sets up user information', action='store_true')
     parser.add_argument('status', 'Gets status of the files', action='store_true')
     parser.add_argument('merge', 'Merges all committed files', action='store_true')
     parser.add_argument('log', 'Prints all performed commits', action='store_true')
@@ -35,6 +36,11 @@ def main() -> int:
     parser.add_argument('add', 'Adds a new file to the trace tree', action='append')
     parser.add_argument('commit', 'Commit a file added to the trace tree', action='append')
 
+    # commit and file tracking
     parser.add_flag('-m', 'Adds a message to the commit')
     parser.add_flag('-a', 'Selects all tracked files', action='store_true')
     parser.add_flag('-A', 'Selects all files in the directory', action='store_true')
+
+    # config
+    parser.add_flag('--author', 'Repository author')
+    parser.add_flag('--author-email', 'Repository author email')
