@@ -39,13 +39,13 @@ class TestPie(bupytest.UnitTest):
         self.assert_true(os.path.isdir('.pie'))
         self.assert_true(os.path.isfile('.pie/.info'))
 
-        with open('./.pie/.info', 'r') as reader:
-            repository_info = json.load(reader)
+        repository_info = self.pie._get_repo_info()
+        author_info = self.pie._get_author_info()
 
-        self.assert_expected(repository_info['author'], author)
-        self.assert_expected(repository_info['author_email'], author_email)
-        self.assert_expected(len(repository_info['key']), 64)
+        self.assert_expected(author_info['author'], author)
+        self.assert_expected(author_info['author_email'], author_email)
         self.assert_expected(repository_info['remote'], None)
+        self.assert_expected(len(repository_info['key']), 64)
 
     def test_track_file(self):
         self.pie.track_file('tests/pie-test/01.txt')
