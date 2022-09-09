@@ -350,9 +350,7 @@ class Pie(object):
         :rtype: List[dict]
         """
 
-        pieces_refs = self._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
-
+        tracked_files = self.get_tracked_files()
         files_status = []
 
         for filepath, info in tracked_files.items():
@@ -394,9 +392,7 @@ class Pie(object):
         :rtype: dict
         """
 
-        pieces_refs = self._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
-
+        tracked_files = self.get_tracked_files()
         file_refs = {}
 
         for filepath in filepath_list:
@@ -429,9 +425,7 @@ class Pie(object):
         :rtype: list
         """
 
-        pieces_refs = self._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
-
+        tracked_files = self.get_tracked_files()
         merged_files = []
 
         for filepath in tracked_files.keys():
