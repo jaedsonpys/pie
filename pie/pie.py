@@ -18,8 +18,9 @@ import hashlib
 import json
 import os
 import secrets
+from concurrent import futures
 from datetime import datetime
-from typing import List
+from typing import List, Union
 
 import utoken
 
@@ -343,9 +344,14 @@ class Pie(object):
         return previous_hash != current_hash
 
     def get_files_status(self) -> List[dict]:
-        pieces_refs = self._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
+        """Returns the status of new, uncommitted and
+        untracked files (as long as they are not in the .ignore file).
 
+        :return: Files status
+        :rtype: List[dict]
+        """
+
+        tracked_files = self.get_tracked_files()
         files_status = []
 
         for filepath, info in tracked_files.items():
@@ -387,9 +393,7 @@ class Pie(object):
         :rtype: dict
         """
 
-        pieces_refs = self._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
-
+        tracked_files = self.get_tracked_files()
         file_refs = {}
 
         for filepath in filepath_list:
@@ -402,14 +406,32 @@ class Pie(object):
                 if not file_info['commits']:
                     file_refs[filepath] = self._create_piece(0, self.index_file_lines(filepath))
                 else:
-                    previous_hash = self._get_last_piece_hash(filepath)
-                    previous_lines = self.join_file_changes(filepath)
-                    current_lines = self.index_file_lines(filepath)
+                    with futures.ThreadPoolExecutor() as executor:
+                        th1 = executor.submit(self._get_last_piece_hash, filepath)
+                        th2 = executor.submit(self.join_file_changes, filepath)
+                        th3 = executor.submit(self.index_file_lines, filepath)
+
+                        previous_hash = th1.result()
+                        previous_lines = th2.result()
+                        current_lines = th3.result()
 
                     lines_difference = self.get_lines_difference(previous_lines, current_lines)
                     file_refs[filepath] = self._create_piece(previous_hash, lines_difference)
 
         return self._create_commit(file_refs, message)
+
+    def _merge_file(self, filepath: str) -> Union[bool, str]:
+        versioned_file = self.join_file_changes(filepath)
+        current_lines = self.index_file_lines(filepath)
+        difference = self.get_lines_difference(versioned_file, current_lines)
+
+        if difference:
+            with open(filepath, 'w') as writer:
+                writer.write('\n'.join(versioned_file.values()))
+
+            return filepath
+        else:
+            return False
 
     def merge(self) -> list:
         """Merge all committed files.
@@ -422,20 +444,23 @@ class Pie(object):
         :rtype: list
         """
 
-        pieces_refs = self._get_pieces_refs()
-        tracked_files = pieces_refs['tracked']
-
+        tracked_files = self.get_tracked_files()
         merged_files = []
 
-        for filepath in tracked_files.keys():
-            versioned_file = self.join_file_changes(filepath)
-            current_lines = self.index_file_lines(filepath)
-            difference = self.get_lines_difference(versioned_file, current_lines)
+        # def callback(fn: futures.Future):
+        #     result = fn.result()
+        #     if result:
+        #         merged_files.append(result)
 
-            if difference:
-                merged_files.append(filepath)
+        with futures.ThreadPoolExecutor() as executor:
+            threads = []
 
-                with open(filepath, 'w') as writer:
-                    writer.write('\n'.join(versioned_file.values()))
+            for filepath in tracked_files.keys():
+                future = executor.submit(self._merge_file, filepath)
+                future.add_done_callback(lambda fn: merged_files.append(fn.result()) if fn.result() else None)
+                threads.append(future)
+
+            while not all([i.done() for i in threads]):
+                pass
 
         return merged_files

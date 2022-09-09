@@ -324,15 +324,21 @@ class TestPie(bupytest.UnitTest):
         self.assert_expected(status, [])
 
     def test_merge_files(self):
+        with open('tests/pie-test/01.txt', 'w') as writer:
+            writer.write('This is 01.txt file')
+
+        with open('tests/pie-test/02.txt', 'w') as writer:
+            writer.write('This is 02.txt file')
+
         with open('tests/pie-test/03.txt', 'w') as writer:
             writer.write('This is 03.txt file')
 
         merged = self.pie.merge()
 
-        self.assert_expected(
-            value=merged,
-            expected=['./tests/pie-test/03.txt']
-        )
+        self.assert_true('./tests/pie-test/03.txt' in merged)
+        self.assert_true('./tests/pie-test/02.txt' in merged)
+        self.assert_true('./tests/pie-test/01.txt' in merged)
+        self.assert_expected(len(merged), 3)
 
         status = self.pie.get_files_status()
         self.assert_expected(status, [])

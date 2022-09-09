@@ -49,3 +49,15 @@ Fixing file not found exception when getting `.ignore` file.
 ## Major commits
 
 - [3a40d64](https://github.com/jaedsonpys/pie/commits/3a40d64): Returning empty list if `.ignore` file not exists.
+
+# 0.5.0
+
+Optimizing the process of merging files and commiting files using threads.
+
+## Major commits
+
+- [48b81a2](https://github.com/jaedsonpys/pie/commits/48b81a2): Adding docstring to `get_file_status` method;
+- [405126b](https://github.com/jaedsonpys/pie/commits/405126b): Using `get_tracked_files` instead of `_get_pieces_refs` method;
+- [03eaf15](https://github.com/jaedsonpys/pie/commits/03eaf15): Adding `_merge_file` method and using in `merge` method;
+- [d7ae041](https://github.com/jaedsonpys/pie/commits/d7ae041): Using threads to merge files;
+- [4ea5c39](https://github.com/jaedsonpys/pie/commits/4ea5c39): Adding thread in `commit` method to get the difference of the files.
