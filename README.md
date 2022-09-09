@@ -3,7 +3,15 @@
 ![BADGE](https://img.shields.io/static/v1?label=status&message=development&color=orange)
 ![BADGE](https://img.shields.io/static/v1?label=license&message=GPL%20v3.0&color=blue)
 
-A version control **written in Python** designed to be simple and complete, with many features. An ***improved version*** of [Vestory](https://github.com/jaedsonpys/vestory).
+A version control **written in Python** designed to be simple and complete, with many features. An ***improved version*** of [Vestory](https://github.com/jaedsonpys/vestory). With it, you can:
+
+- Create repositories;
+- Tracking files;
+- Ignore files with `.ignore` file;
+- Get status of files;
+- Commit of tracked files;
+- Merge all changes to the committed files;
+- Get the changed lines between files.
 
 The `Pie` documentation is being prepared, follow the development process in the [dev branch](https://github.com/jaedsonpys/pie/tree/dev)!
 
