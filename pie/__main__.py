@@ -100,9 +100,12 @@ def main() -> int:
 
         if commits:
             for commit_id, info in commits.items():
-                print(f'\033[33mcommit id {commit_id}\033[m')
+                author = info['author']
+                author_email = info['author_email']
+
+                print(f'\033[33m{commit_id}\033[m ({author} <\033[32m{author_email}\033[m>)')
                 print(f'Date: {info["datetime"]}')
-                print(f'Author: {info["author"]} <\033[32m{info["author_email"]}\033[m>\n')
+                print(f'Changed files: {len(info["files"])}\n')
                 print(f'    {info["message"]}\n')
 
     return 0
