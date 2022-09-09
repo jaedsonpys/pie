@@ -288,7 +288,7 @@ class Pie(object):
         }
 
         commit_json = json.dumps(commit).encode()
-        commit_hash = hashlib.sha256(commit_json).hexdigest()
+        commit_hash = hashlib.sha1(commit_json).hexdigest()
 
         for file in files_refs:
             pieces_refs['tracked'][file]['commits'].append(commit_hash)
