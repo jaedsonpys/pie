@@ -25,11 +25,14 @@ def remove_slash(string: str) -> str:
 
 
 def get_ignored_files() -> list:
-    with open('.ignore', 'r') as reader:
-        ignored_files = [i.replace('\n', '') for i in reader.readlines()]
-        ignored_files = [i.replace('./', '') for i in ignored_files]
+    ignored_files = []
 
-    ignored_files = list(map(remove_slash, ignored_files))
+    if os.path.isfile('.ignore'):
+        with open('.ignore', 'r') as reader:
+            ignored_files = [i.replace('\n', '') for i in reader.readlines()]
+            ignored_files = [i.replace('./', '') for i in ignored_files]
+            ignored_files = list(map(remove_slash, ignored_files))
+
     return ignored_files
 
 
