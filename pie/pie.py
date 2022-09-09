@@ -406,9 +406,14 @@ class Pie(object):
                 if not file_info['commits']:
                     file_refs[filepath] = self._create_piece(0, self.index_file_lines(filepath))
                 else:
-                    previous_hash = self._get_last_piece_hash(filepath)
-                    previous_lines = self.join_file_changes(filepath)
-                    current_lines = self.index_file_lines(filepath)
+                    with futures.ThreadPoolExecutor() as executor:
+                        th1 = executor.submit(self._get_last_piece_hash, filepath)
+                        th2 = executor.submit(self.join_file_changes, filepath)
+                        th3 = executor.submit(self.index_file_lines, filepath)
+
+                        previous_hash = th1.result()
+                        previous_lines = th2.result()
+                        current_lines = th3.result()
 
                     lines_difference = self.get_lines_difference(previous_lines, current_lines)
                     file_refs[filepath] = self._create_piece(previous_hash, lines_difference)
