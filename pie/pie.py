@@ -411,7 +411,17 @@ class Pie(object):
 
         return self._create_commit(file_refs, message)
 
-    def merge(self) -> List[dict]:
+    def merge(self) -> list:
+        """Merge all committed files.
+
+        Creates the file if it does not exist
+        and changes the current contents of a file
+        that is being merged.
+
+        :return: Returns a list with the files that have been merged.
+        :rtype: list
+        """
+
         pieces_refs = self._get_pieces_refs()
         tracked_files = pieces_refs['tracked']
 
