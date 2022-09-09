@@ -62,7 +62,7 @@ def main() -> int:
         except exceptions.RepositoryExistsError:
             print('\033[31merror: a repository already exists in this directory\033[m')
             return 1
-    elif args.status:
+    elif args.status:  # print files status
         status = pie.get_files_status()
 
         uncommitted = [i for i in status if i['status'] == 'uncommitted']
@@ -95,5 +95,14 @@ def main() -> int:
                 print(f'    \033[31m{file["filepath"]}\033[m')
 
             print()
+    elif args.log:
+        commits = pie.get_commits()
+
+        if commits:
+            for commit_id, info in commits.items():
+                print(f'\033[33mcommit id {commit_id}\033[m')
+                print(f'Date: {info["datetime"]}')
+                print(f'Author: {info["author"]} <\033[32m{info["author_email"]}\033[m>\n')
+                print(f'    {info["message"]}\n')
 
     return 0
