@@ -5,7 +5,7 @@
 
 A version control **written in Python** designed to be simple and complete, with many features. An ***improved version*** of [Vestory](https://github.com/jaedsonpys/vestory).
 
-The `Pie` documentation is being prepared, follow the development process in the [`dev` branch](https://github.com/jaedsonpys/pie/tree/dev)!
+The `Pie` documentation is being prepared, follow the development process in the [dev branch](https://github.com/jaedsonpys/pie/tree/dev)!
 
 <!-- You can **follow development** in the `dev` branch ([dev branch on GitHub](https://github.com/jaedsonpys/pie/tree/dev)), where development is taking place until the **first version** is ready. -->
 
