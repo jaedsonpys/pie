@@ -34,3 +34,7 @@ def main() -> int:
 
     parser.add_argument('add', 'Adds a new file to the trace tree', action='append')
     parser.add_argument('commit', 'Commit a file added to the trace tree', action='append')
+
+    parser.add_flag('-m', 'Adds a message to the commit')
+    parser.add_flag('-a', 'Selects all tracked files', action='store_true')
+    parser.add_flag('-A', 'Selects all files in the directory', action='store_true')
