@@ -275,7 +275,7 @@ class Pie(object):
 
         return previous_lines
 
-    def _create_commit(self, files_refs: dict, message: str) -> dict:
+    def _create_commit(self, files_refs: dict, message: str) -> Union[dict, str]:
         author_info = self._get_author_info()
         pieces_refs = self._get_pieces_refs()
 
@@ -301,7 +301,7 @@ class Pie(object):
         pieces_refs['commits'][commit_hash] = commit
         self._write_pieces_refs(pieces_refs)
 
-        return commit
+        return commit, commit_hash
 
     def _create_piece(self, previous_hash: str, lines: dict) -> str:
         repo_info = self._get_repo_info()
@@ -401,7 +401,7 @@ class Pie(object):
 
         return files_status
 
-    def commit(self, filepath_list: list, message: str) -> dict:
+    def commit(self, filepath_list: list, message: str) -> Union[dict, str]:
         """Commit the files.
 
         :param filepath_list: List of files that have changed.
@@ -409,7 +409,7 @@ class Pie(object):
         :param message: Commit message.
         :type message: str
         :return: Return the commit data.
-        :rtype: dict
+        :rtype: Union[dict, str]
         """
 
         tracked_files = self.get_tracked_files()
