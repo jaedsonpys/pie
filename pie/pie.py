@@ -279,12 +279,17 @@ class Pie(object):
         author_info = self._get_author_info()
         pieces_refs = self._get_pieces_refs()
 
+        files = {}
+
+        for file, info in files_refs.items():
+            files[file] = self._create_piece(info['previous_hash'], info['diff'])
+
         commit = {
             'author': author_info['author'],
             'author_email': author_info['author_email'],
             'message': message,
             'datetime': datetime.now().strftime('%Y.%m.%d %H:%M:%S'),
-            'files': files_refs
+            'files': files
         }
 
         commit_json = json.dumps(commit).encode()
@@ -418,7 +423,10 @@ class Pie(object):
 
             if file_info:
                 if not file_info['commits']:
-                    file_refs[filepath] = self._create_piece(0, self.index_file_lines(filepath))
+                    file_refs[filepath] = {
+                        'diff': self.index_file_lines(filepath),
+                        'previous_hash': 0
+                    }
                 else:
                     with futures.ThreadPoolExecutor() as executor:
                         th1 = executor.submit(self._get_last_piece_hash, filepath)
@@ -430,7 +438,10 @@ class Pie(object):
                         current_lines = th3.result()
 
                     lines_difference = self.get_lines_difference(previous_lines, current_lines)
-                    file_refs[filepath] = self._create_piece(previous_hash, lines_difference)
+                    file_refs[filepath] = {
+                        'diff': lines_difference,
+                        'previous_hash': previous_hash
+                    }
 
         return self._create_commit(file_refs, message)
 
