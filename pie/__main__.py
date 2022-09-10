@@ -107,5 +107,14 @@ def main() -> int:
                 print(f'Date: {info["datetime"]}')
                 print(f'Changed files: {len(info["files"])}\n')
                 print(f'    {info["message"]}\n')
+    elif args.add:
+        files = args.add
+
+        for file in files:
+            try:
+                pie.track_file(file)
+            except FileNotFoundError:
+                print(f'\033[31merror: file "{file}" not found')
+                return 1
 
     return 0
