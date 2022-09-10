@@ -23,3 +23,8 @@ class RepositoryExistsError(Exception):
 class CommitIntegrityError(Exception):
     def __init__(self, *args):
         super().__init__(*args)
+
+
+class FileNotTrackedError(Exception):
+    def __init__(self, *args):
+        super().__init__(*args)

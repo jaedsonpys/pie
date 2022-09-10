@@ -442,6 +442,8 @@ class Pie(object):
                         'diff': lines_difference,
                         'previous_hash': previous_hash
                     }
+            else:
+                raise exceptions.FileNotTrackedError(f'File "{filepath}" not tracked')
 
         return self._create_commit(file_refs, message)
 
