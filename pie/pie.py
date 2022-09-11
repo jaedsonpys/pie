@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from functools import wraps
 import hashlib
 import json
 import os
@@ -26,6 +27,17 @@ import utoken
 
 from . import exceptions
 from .ignore import get_not_ignored_files
+
+
+def repo_required(method):
+    @wraps(method)
+    def decorator(ref, *args, **kwargs):
+        if not ref.check_repo_files():
+            raise exceptions.RepositoryNotExistsError('Repository not exists')
+        else:
+            return method(ref, *args, **kwargs)
+    
+    return decorator
 
 
 class Pie(object):
@@ -56,18 +68,21 @@ class Pie(object):
 
         return all(files)
 
+    @repo_required
     def _get_repo_info(self) -> dict:
         with open(self.repository_info_file, 'r') as reader:
             repo_info = json.load(reader)
 
         return repo_info
 
+    @repo_required
     def _get_pieces_refs(self) -> dict:
         with open(self.pieces_file, 'r') as reader:
             pieces_refs = json.load(reader)
 
         return pieces_refs
 
+    @repo_required
     def _get_author_info(self) -> dict:
         with open(self.author_info_file, 'r') as reader:
             author_info = json.load(reader)
@@ -128,6 +143,7 @@ class Pie(object):
         self._write_pieces_refs(pieces_object)
         self._write_author_info(author, author_email)
 
+    @repo_required
     def get_tracked_files(self) -> dict:
         """Get the tracked files
 
@@ -139,6 +155,7 @@ class Pie(object):
         pieces_refs = self._get_pieces_refs()
         return pieces_refs['tracked']
 
+    @repo_required
     def track_file(self, filepath: str) -> None:
         """Adds a new file to the trace.
 
@@ -240,9 +257,9 @@ class Pie(object):
 
     def _decode_piece_token(self, piece_token: str) -> dict:
         integrity_exceptions = (
-                utoken.exceptions.InvalidContentTokenError,
-                utoken.exceptions.InvalidKeyError,
-                utoken.exceptions.InvalidTokenError
+            utoken.exceptions.InvalidContentTokenError,
+            utoken.exceptions.InvalidKeyError,
+            utoken.exceptions.InvalidTokenError
         )
 
         try:
@@ -252,6 +269,7 @@ class Pie(object):
 
         return piece_info
 
+    @repo_required
     def join_file_changes(self, filepath: str) -> dict:
         """Merge all committed changes from the
         file into a single dictionary with numbered lines.
@@ -293,6 +311,7 @@ class Pie(object):
 
         return previous_lines
 
+    @repo_required
     def _create_commit(self, files_refs: dict, message: str) -> Union[dict, str]:
         author_info = self._get_author_info()
         pieces_refs = self._get_pieces_refs()
@@ -321,6 +340,7 @@ class Pie(object):
 
         return commit, commit_hash
 
+    @repo_required
     def _create_piece(self, previous_hash: str, lines: dict) -> str:
         repo_info = self._get_repo_info()
 
@@ -339,6 +359,7 @@ class Pie(object):
 
         return piece_id
 
+    @repo_required
     def _get_last_piece_hash(self, filepath: str) -> str:
         pieces_refs = self._get_pieces_refs()
         file = pieces_refs['tracked'][filepath]
@@ -358,6 +379,7 @@ class Pie(object):
 
         return hashlib.sha256(piece_json).hexdigest()
 
+    @repo_required
     def get_commits(self) -> dict:
         """Return all commits.
 
@@ -380,6 +402,7 @@ class Pie(object):
 
         return previous_hash != current_hash
 
+    @repo_required
     def get_files_status(self) -> List[dict]:
         """Returns the status of new, uncommitted and
         untracked files (as long as they are not in the .ignore file).
@@ -419,6 +442,7 @@ class Pie(object):
 
         return files_status
 
+    @repo_required
     def commit(self, filepath_list: list, message: str) -> Union[dict, str]:
         """Commit the files.
 
@@ -483,6 +507,7 @@ class Pie(object):
         else:
             return False
 
+    @repo_required
     def merge(self) -> list:
         """Merge all committed files.
 
