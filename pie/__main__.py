@@ -116,5 +116,21 @@ def main() -> int:
             except FileNotFoundError:
                 print(f'\033[31merror: file "{file}" not found')
                 return 1
+    elif args.commit:
+        files = args.commit
+        message = args.m
+
+        if not message:
+            print('\033[33ma message to describe your commit is required.\033[m')
+            print('(use the "-m" flag to set your message/description)')
+            return 1
+
+        try:
+            commit, commit_hash = pie.commit(files, message)
+        except exceptions.NoFilesToCommitError:
+            print('No file has been modified to perform a commit.')
+
+        print(f'\033[1m\033[4;33m[{commit_hash[:8]}]\033[m {commit["message"]}')
+        print(f'  {len(commit["files"])} files were modified')
 
     return 0
