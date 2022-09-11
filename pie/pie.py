@@ -438,12 +438,17 @@ class Pie(object):
                         current_lines = th3.result()
 
                     lines_difference = self.get_lines_difference(previous_lines, current_lines)
-                    file_refs[filepath] = {
-                        'diff': lines_difference,
-                        'previous_hash': previous_hash
-                    }
+
+                    if lines_difference:
+                        file_refs[filepath] = {
+                            'diff': lines_difference,
+                            'previous_hash': previous_hash
+                        }
             else:
                 raise exceptions.FileNotTrackedError(f'File "{filepath}" not tracked')
+
+        if not file_refs:
+            raise exceptions.NoFilesToCommitError('No files to commit')
 
         return self._create_commit(file_refs, message)
 

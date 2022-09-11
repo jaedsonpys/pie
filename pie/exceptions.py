@@ -28,3 +28,8 @@ class CommitIntegrityError(Exception):
 class FileNotTrackedError(Exception):
     def __init__(self, *args):
         super().__init__(*args)
+
+
+class NoFilesToCommitError(Exception):
+    def __init__(self, *args):
+        super().__init__(*args)
