@@ -38,6 +38,24 @@ class Pie(object):
         self.pieces_file = os.path.join(self.repository_path, 'pieces.json')
         self.pieces_dir = os.path.join(self.repository_path, 'pieces')
 
+    def check_repo_files(self) -> bool:
+        """Checks all files in the repository
+        and returns `True` if all are present.
+
+        :return: True if all are present.
+        :rtype: bool
+        """
+
+        files = [
+            os.path.isdir(self.repository_path),
+            os.path.isfile(self.repository_info_file),
+            os.path.isfile(self.author_info_file),
+            os.path.isdir(self.pieces_dir),
+            os.path.isfile(self.pieces_file),
+        ]
+
+        return all(files)
+
     def _get_repo_info(self) -> dict:
         with open(self.repository_info_file, 'r') as reader:
             repo_info = json.load(reader)
