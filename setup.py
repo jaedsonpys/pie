@@ -28,5 +28,10 @@ setup(
         'Programming Language :: Python :: 3',
         'Topic :: Software Development',
         'Topic :: Software Development :: Version Control'
-    ]
+    ],
+    entry_points={
+        'console_scripts': [
+            'pie = pie.__main__:main'
+        ]
+    }
 )
