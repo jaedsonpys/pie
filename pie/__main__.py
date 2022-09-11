@@ -67,6 +67,10 @@ def main() -> int:
             if args.status:  # print files status
                 status = pie.get_files_status()
 
+                if not status:
+                    print('No uncommitted files, untracked files or new files in the current directory')
+                    return 0
+
                 uncommitted = [i for i in status if i['status'] == 'uncommitted']
                 untracked = [i for i in status if i['status'] == 'untracked']
                 new_files = [i for i in status if i['status'] == 'new']
@@ -100,15 +104,14 @@ def main() -> int:
             elif args.log:
                 commits = pie.get_commits()
 
-                if commits:
-                    for commit_id, info in commits.items():
-                        author = info['author']
-                        author_email = info['author_email']
+                for commit_id, info in commits.items():
+                    author = info['author']
+                    author_email = info['author_email']
 
-                        print(f'\033[33m{commit_id}\033[m ({author} <\033[32m{author_email}\033[m>)')
-                        print(f'Date: {info["datetime"]}')
-                        print(f'Changed files: {len(info["files"])}\n')
-                        print(f'    {info["message"]}\n')
+                    print(f'\033[33m{commit_id}\033[m ({author} <\033[32m{author_email}\033[m>)')
+                    print(f'Date: {info["datetime"]}')
+                    print(f'Changed files: {len(info["files"])}\n')
+                    print(f'    {info["message"]}\n')
             elif args.add:
                 files = args.add
 
