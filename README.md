@@ -1,6 +1,6 @@
 # Pie - Powerful control version
 
-![BADGE](https://img.shields.io/static/v1?label=status&message=development&color=orange)
+![BADGE](https://img.shields.io/static/v1?label=status&message=development&color=green)
 ![BADGE](https://img.shields.io/static/v1?label=license&message=GPL%20v3.0&color=blue)
 
 A version control **written in Python** designed to be simple and complete, with many features. An ***improved version*** of [Vestory](https://github.com/jaedsonpys/vestory). With it, you can:
@@ -10,10 +10,15 @@ A version control **written in Python** designed to be simple and complete, with
 - Ignore files with `.ignore` file;
 - Get status of files;
 - Commit of tracked files;
+- Get all commits log;
 - Merge all changes to the committed files;
 - Get the changed lines between files.
 
-The `Pie` documentation is being prepared, follow the development process in the [dev branch](https://github.com/jaedsonpys/pie/tree/dev)!
+To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/cookiedb/tree/master/DOCS). Download `Pie` using the pip package manager
+
+```
+pip install pie-cli
+```
 
 <!-- You can **follow development** in the `dev` branch ([dev branch on GitHub](https://github.com/jaedsonpys/pie/tree/dev)), where development is taking place until the **first version** is ready. -->
 
