@@ -30,7 +30,7 @@ def main() -> int:
 
     parser.add_argument('init', 'Create a new repository', action='store_true')
     parser.add_argument('status', 'Gets status of the files', action='store_true')
-    parser.add_argument('merge', 'Merges all committed files', action='store_true')
+    # parser.add_argument('merge', 'Merges all committed files', action='store_true')
     parser.add_argument('log', 'Prints all performed commits', action='store_true')
 
     parser.add_argument('add', 'Adds a new file to the trace tree', action='append')
