@@ -69,3 +69,16 @@ Changing location of author information to a file called `.author`.
 ## Major commits
 
 - [48c2c1b](https://github.com/jaedsonpys/pie/commits/48c2c1b): Creating `.author` file to store author info.
+
+# 1.0.0
+
+Adding Command Line Interface (CLI). Fixes and new features.
+
+## Major commits
+
+- [3ea3b09](https://github.com/jaedsonpys/pie/commits/3ea3b09): Creating ArgEasy parser;
+- [79c0e7a](https://github.com/jaedsonpys/pie/commits/79c0e7a): Using `SHA1` hash to commits ID instead of `SHA256`;
+- [9bfe353](https://github.com/jaedsonpys/pie/commits/9bfe353): Creating pieces of the file only when the commit is being created;
+- [00a9ed3](https://github.com/jaedsonpys/pie/commits/00a9ed3): Throwing exception if file is not being tracked;
+- [b43ef0a](https://github.com/jaedsonpys/pie/commits/b43ef0a): Throwing exception if no file has been changed for commit;
+- [7b7baaa](https://github.com/jaedsonpys/pie/commits/7b7baaa): Adding decorator to check repository files.
