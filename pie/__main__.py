@@ -128,7 +128,8 @@ def main() -> int:
         try:
             commit, commit_hash = pie.commit(files, message)
         except exceptions.NoFilesToCommitError:
-            print('No file has been modified to perform a commit.')
+            print('no changed files, commit cancelled')
+            return 1
 
         print(f'\033[1m\033[4;33m[{commit_hash[:8]}]\033[m {commit["message"]}')
         print(f'  {len(commit["files"])} files were modified')
