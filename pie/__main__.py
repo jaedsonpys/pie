@@ -62,76 +62,81 @@ def main() -> int:
         except exceptions.RepositoryExistsError:
             print('\033[31merror: a repository already exists in this directory\033[m')
             return 1
-    elif args.status:  # print files status
-        status = pie.get_files_status()
-
-        uncommitted = [i for i in status if i['status'] == 'uncommitted']
-        untracked = [i for i in status if i['status'] == 'untracked']
-        new_files = [i for i in status if i['status'] == 'new']
-
-        if new_files:
-            print('newly added files, but not yet committed.')
-            print('  (use "pie commit" argument to commit files):\n')
-
-            for file in new_files:
-                print(f'    \033[32m{file["filepath"]}\033[m')
-
-            print()
-
-        if uncommitted:
-            print('uncommitted files.')
-            print('  (use "pie commit" argument to commit files):\n')
-
-            for file in uncommitted:
-                print(f'    \033[32m{file["filepath"]}\033[m')
-
-            print()
-
-        if untracked:
-            print('not added files that can be tracked.')
-            print('  (use "pie add" argument to add files):\n')
-
-            for file in untracked:
-                print(f'    \033[31m{file["filepath"]}\033[m')
-
-            print()
-    elif args.log:
-        commits = pie.get_commits()
-
-        if commits:
-            for commit_id, info in commits.items():
-                author = info['author']
-                author_email = info['author_email']
-
-                print(f'\033[33m{commit_id}\033[m ({author} <\033[32m{author_email}\033[m>)')
-                print(f'Date: {info["datetime"]}')
-                print(f'Changed files: {len(info["files"])}\n')
-                print(f'    {info["message"]}\n')
-    elif args.add:
-        files = args.add
-
-        for file in files:
-            try:
-                pie.track_file(file)
-            except FileNotFoundError:
-                print(f'\033[31merror: file "{file}" not found')
-                return 1
-    elif args.commit:
-        files = args.commit
-        message = args.m
-
-        if not message:
-            print('\033[33ma message to describe your commit is required.\033[m')
-            print('(use the "-m" flag to set your message/description)')
-            return 1
-
+    else:
         try:
-            commit, commit_hash = pie.commit(files, message)
-        except exceptions.NoFilesToCommitError:
-            print('no changed files, commit cancelled')
-            return 1
+            if args.status:  # print files status
+                status = pie.get_files_status()
 
-        print(f'\033[1m\033[4;33m[{commit_hash[:8]}]\033[m {commit["message"]}')
-        print(f'  {len(commit["files"])} files were modified')
+                uncommitted = [i for i in status if i['status'] == 'uncommitted']
+                untracked = [i for i in status if i['status'] == 'untracked']
+                new_files = [i for i in status if i['status'] == 'new']
+
+                if new_files:
+                    print('newly added files, but not yet committed.')
+                    print('  (use "pie commit" argument to commit files):\n')
+
+                    for file in new_files:
+                        print(f'    \033[32m{file["filepath"]}\033[m')
+
+                    print()
+
+                if uncommitted:
+                    print('uncommitted files.')
+                    print('  (use "pie commit" argument to commit files):\n')
+
+                    for file in uncommitted:
+                        print(f'    \033[32m{file["filepath"]}\033[m')
+
+                    print()
+
+                if untracked:
+                    print('not added files that can be tracked.')
+                    print('  (use "pie add" argument to add files):\n')
+
+                    for file in untracked:
+                        print(f'    \033[31m{file["filepath"]}\033[m')
+
+                    print()
+            elif args.log:
+                commits = pie.get_commits()
+
+                if commits:
+                    for commit_id, info in commits.items():
+                        author = info['author']
+                        author_email = info['author_email']
+
+                        print(f'\033[33m{commit_id}\033[m ({author} <\033[32m{author_email}\033[m>)')
+                        print(f'Date: {info["datetime"]}')
+                        print(f'Changed files: {len(info["files"])}\n')
+                        print(f'    {info["message"]}\n')
+            elif args.add:
+                files = args.add
+
+                for file in files:
+                    try:
+                        pie.track_file(file)
+                    except FileNotFoundError:
+                        print(f'\033[31merror: file "{file}" not found')
+                        return 1
+            elif args.commit:
+                files = args.commit
+                message = args.m
+
+                if not message:
+                    print('\033[33ma message to describe your commit is required.\033[m')
+                    print('(use the "-m" flag to set your message/description)')
+                    return 1
+
+                try:
+                    commit, commit_hash = pie.commit(files, message)
+                except exceptions.NoFilesToCommitError:
+                    print('no changed files, commit cancelled')
+                    return 1
+
+                print(f'\033[1m\033[4;33m[{commit_hash[:8]}]\033[m {commit["message"]}')
+                print(f'  {len(commit["files"])} files were modified')
+        except exceptions.RepositoryNotExistsError:
+            print('\033[31merror: no ".pie" repository found in this directory\033[m')
+            return 1
 
     return 0
