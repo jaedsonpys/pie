@@ -82,3 +82,11 @@ Adding Command Line Interface (CLI). Fixes and new features.
 - [00a9ed3](https://github.com/jaedsonpys/pie/commits/00a9ed3): Throwing exception if file is not being tracked;
 - [b43ef0a](https://github.com/jaedsonpys/pie/commits/b43ef0a): Throwing exception if no file has been changed for commit;
 - [7b7baaa](https://github.com/jaedsonpys/pie/commits/7b7baaa): Adding decorator to check repository files.
+
+# 1.0.1
+
+Fix documentation link in README.md
+
+## Major commits
+
+- [45a1bb0](https://github.com/jaedsonpys/pie/commits/45a1bb0): Fix `DOCS/` link in README.md.
