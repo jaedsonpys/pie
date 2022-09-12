@@ -14,7 +14,7 @@ A version control **written in Python** designed to be simple and complete, with
 - Merge all changes to the committed files;
 - Get the changed lines between files.
 
-To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/cookiedb/tree/master/DOCS). Download `Pie` using the pip package manager
+To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/pie/tree/master/DOCS). Download `Pie` using the pip package manager
 
 ```
 pip install pie-cli
