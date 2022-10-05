@@ -33,6 +33,9 @@ def get_ignored_files() -> list:
             ignored_files = [i.replace('./', '') for i in ignored_files]
             ignored_files = list(map(remove_slash, ignored_files))
 
+    ignored_files.append('.pie')
+    ignored_files.append('venv')
+
     return ignored_files
 
 
