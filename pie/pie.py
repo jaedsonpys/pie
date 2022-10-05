@@ -311,6 +311,17 @@ class Pie(object):
 
         return previous_lines
 
+    def get_file_difference(self, filepath: str) -> dict:
+        with futures.ThreadPoolExecutor() as executor:
+            th1 = executor.submit(self.join_file_changes, filepath)
+            th2 = executor.submit(self.index_file_lines, filepath)
+
+            previous_lines = th1.result()
+            current_lines = th2.result()
+
+        lines_difference = self.get_lines_difference(previous_lines, current_lines)
+        return lines_difference
+
     @repo_required
     def _create_commit(self, files_refs: dict, message: str) -> Union[dict, str]:
         author_info = self._get_author_info()
@@ -470,16 +481,8 @@ class Pie(object):
                         'previous_hash': 0
                     }
                 else:
-                    with futures.ThreadPoolExecutor() as executor:
-                        th1 = executor.submit(self._get_last_piece_hash, filepath)
-                        th2 = executor.submit(self.join_file_changes, filepath)
-                        th3 = executor.submit(self.index_file_lines, filepath)
-
-                        previous_hash = th1.result()
-                        previous_lines = th2.result()
-                        current_lines = th3.result()
-
-                    lines_difference = self.get_lines_difference(previous_lines, current_lines)
+                    previous_hash = self._get_last_piece_hash(filepath)
+                    lines_difference = self.get_file_difference(filepath)
 
                     if lines_difference:
                         file_refs[filepath] = {
@@ -495,11 +498,11 @@ class Pie(object):
         return self._create_commit(file_refs, message)
 
     def _merge_file(self, filepath: str) -> Union[bool, str]:
-        versioned_file = self.join_file_changes(filepath)
-        current_lines = self.index_file_lines(filepath)
-        difference = self.get_lines_difference(versioned_file, current_lines)
+        difference = self.get_file_difference(filepath)
 
         if difference:
+            versioned_file = self.join_file_changes(filepath)
+
             with open(filepath, 'w') as writer:
                 writer.write('\n'.join(versioned_file.values()))
 
