@@ -90,3 +90,13 @@ Fix documentation link in README.md
 ## Major commits
 
 - [45a1bb0](https://github.com/jaedsonpys/pie/commits/45a1bb0): Fix `DOCS/` link in README.md.
+
+# 1.1.0
+
+Adding `diff` command and adding new method.
+
+## Major commits
+
+- [3380311](https://github.com/jaedsonpys/pie/commits/3380311): Ignore `.pie/` and `./venv` directories;
+- [dc94260](https://github.com/jaedsonpys/pie/commits/dc94260): Adding `pie diff` argument to view file difference;
+- [1a4296c](https://github.com/jaedsonpys/pie/commits/1a4296c): Adding `get_file_difference` method.
