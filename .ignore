@@ -7,3 +7,6 @@ setup.py
 .gitignore
 DOCS/
 README.md
+
+*.egg-info
+dist/
