@@ -1,0 +1,9 @@
+.git/
+pie/
+tests/
+CHANGELOG.md
+requirements.txt
+setup.py
+.gitignore
+DOCS/
+README.md
