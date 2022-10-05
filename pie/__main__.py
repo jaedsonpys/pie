@@ -32,6 +32,7 @@ def main() -> int:
     parser.add_argument('status', 'Gets status of the files', action='store_true')
     # parser.add_argument('merge', 'Merges all committed files', action='store_true')
     parser.add_argument('log', 'Prints all performed commits', action='store_true')
+    parser.add_argument('diff', 'Get files difference', action='store_true')
 
     parser.add_argument('add', 'Adds a new file to the trace tree', action='append')
     parser.add_argument('commit', 'Commit a file added to the trace tree', action='append')
@@ -138,6 +139,31 @@ def main() -> int:
 
                 print(f'\033[1m\033[4;33m[{commit_hash[:8]}]\033[m {commit["message"]}')
                 print(f'  {len(commit["files"])} files were modified')
+            elif args.diff:
+                print('View difference between last commits and current file')
+                print('  (use "pie commit" argument to commit files):\n')
+
+                tracked_files = pie.get_tracked_files()
+
+                for filepath in tracked_files.keys():
+                    current_lines = pie.index_file_lines(filepath)
+                    previous_lines = pie.join_file_changes(filepath)
+                    difference = pie.get_lines_difference(previous_lines, current_lines)
+
+                    if difference:
+                        lines_number = len(current_lines) - len(previous_lines)
+
+                        if lines_number < 0:
+                            lines_status = f'\033[31m  --{lines_number * -1} line(s) removed\033[m\n'
+                        else:
+                            lines_status = f'\033[32m  ++{lines_number} line(s) added\033[m\n'
+
+                        print(f'  {filepath}')
+                        print(lines_status)
+                        for number, line in difference.items():
+                            print(f'\033[33m    {number} | {line}')
+
+                        print('\033[m')
         except exceptions.RepositoryNotExistsError:
             print('\033[31merror: no ".pie" repository found in this directory\033[m')
             return 1
