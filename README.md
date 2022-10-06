@@ -14,13 +14,11 @@ A version control **written in Python** designed to be simple and complete, with
 - Merge all changes to the committed files;
 - Get the changed lines between files.
 
-To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/pie/tree/master/DOCS). Download `Pie` using the pip package manager
+To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/pie/tree/master/DOCS). Download `Pie` using the pip package manager:
 
 ```
 pip install pie-cli
 ```
-
-<!-- You can **follow development** in the `dev` branch ([dev branch on GitHub](https://github.com/jaedsonpys/pie/tree/dev)), where development is taking place until the **first version** is ready. -->
 
 ## License
 
