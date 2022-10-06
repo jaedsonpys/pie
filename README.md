@@ -1,6 +1,6 @@
 # Pie - Powerful control version
 
-![BADGE](https://img.shields.io/static/v1?label=status&message=development&color=green)
+![BADGE](https://img.shields.io/static/v1?label=status&message=stable&color=green)
 ![BADGE](https://img.shields.io/static/v1?label=license&message=GPL%20v3.0&color=blue)
 
 A version control **written in Python** designed to be simple and complete, with many features. An ***improved version*** of [Vestory](https://github.com/jaedsonpys/vestory). With it, you can:
