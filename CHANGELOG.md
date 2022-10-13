@@ -100,3 +100,11 @@ Adding `diff` command and adding new method.
 - [3380311](https://github.com/jaedsonpys/pie/commits/3380311): Ignore `.pie/` and `./venv` directories;
 - [dc94260](https://github.com/jaedsonpys/pie/commits/dc94260): Adding `pie diff` argument to view file difference;
 - [1a4296c](https://github.com/jaedsonpys/pie/commits/1a4296c): Adding `get_file_difference` method.
+
+# 1.1.1
+
+Fix installation error in `setup.py` script.
+
+## Major commits
+
+- [d2375f8](https://github.com/jaedsonpys/pie/commits/d2375f8): Fix installation error in `setup.py`.
