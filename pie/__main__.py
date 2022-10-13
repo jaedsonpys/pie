@@ -151,11 +151,6 @@ def main() -> int:
                         if pie.file_has_changed(filepath):
                             files.append(filepath)
 
-                if not files:
-                    print('\033[31merror: no file specified to commit (use "pie commit" argument and '
-                          'pass a list of files or use the "-a" flag to select all tracked files)\033[m')
-                    return 1
-
                 if not message:
                     print('\033[33ma message to describe your commit is required.\033[m')
                     print('(use the "-m" flag to set your message/description)')
