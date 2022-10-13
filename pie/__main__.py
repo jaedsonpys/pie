@@ -40,6 +40,8 @@ def main() -> int:
 
     # commit and file tracking
     parser.add_flag('-m', 'Adds a message to the commit')
+    parser.add_flag('-am', 'Select all tracked files and set a commit message')
+
     parser.add_flag('-a', 'Selects all tracked files to commit', action='store_true')
     parser.add_flag('-A', 'Selects all files in the directory to track', action='store_true')
 
@@ -143,6 +145,10 @@ def main() -> int:
                 files = args.commit
                 message = args.m
                 all_tracked_files_flag = args.a
+
+                if args.am:
+                    message = args.am
+                    all_tracked_files_flag = True
 
                 if all_tracked_files_flag:
                     tracked_info = pie.get_tracked_files()
