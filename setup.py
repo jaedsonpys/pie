@@ -12,10 +12,10 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/jaedsonpys/pie',
     license='GPL v3.0',
-    version='1.1.1',
+    version='1.2.0',
     packages=['pie'],
     python_requires='>=3.7',
-    install_requires=['utokeniz==1.1.1', 'argeasy==2.0.1'],
+    install_requires=['utokeniz==1.1.1', 'argeasy==2.0.2'],
     keywords=['version', 'control', 'versioning', 'file'],
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
