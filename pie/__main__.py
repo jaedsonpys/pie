@@ -167,6 +167,10 @@ def main() -> int:
                 except exceptions.NoFilesToCommitError:
                     print('no changed files, commit cancelled')
                     return 1
+                except exceptions.FileNotTrackedError as err:
+                    print(f'\033[31m{err.args[0]}\033[m')
+                    print('(use "pie add" argument to add files)')
+                    return 1
 
                 print(f'\033[1m\033[4;33m[{commit_hash[:8]}]\033[m {commit["message"]}')
                 print(f'  {len(commit["files"])} files were modified')
