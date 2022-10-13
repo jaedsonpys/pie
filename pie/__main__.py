@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import os
 from argeasy import ArgEasy
 
 from . import exceptions, ignore
@@ -39,7 +40,7 @@ def main() -> int:
 
     # commit and file tracking
     parser.add_flag('-m', 'Adds a message to the commit')
-    # parser.add_flag('-a', 'Selects all tracked files', action='store_true')
+    parser.add_flag('-a', 'Selects all tracked files', action='store_true')
     parser.add_flag('-A', 'Selects all files in the directory', action='store_true')
 
     # config
@@ -117,9 +118,15 @@ def main() -> int:
                 files_to_add = args.add
                 all_files_flag = args.A
 
+                tracked_info = pie.get_tracked_files()
+                tracked_files = tracked_info.keys()
+
                 if all_files_flag:
                     not_ignored_files = ignore.get_not_ignored_files()
-                    files_to_add.extend(not_ignored_files)
+                    for file in not_ignored_files:
+                        file = os.path.join('.', file)
+                        if file not in tracked_files:
+                            files_to_add.append(file)
 
                 for file in files_to_add:
                     try:
