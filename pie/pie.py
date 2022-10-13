@@ -170,15 +170,16 @@ class Pie(object):
         if './' not in filepath:
             filepath = os.path.join('.', filepath)
 
-        file_info = {
-            'filename': filepath,
-            'commits': []
-        }
-
         pieces_refs = self._get_pieces_refs()
-        pieces_refs['tracked'][filepath] = file_info
 
-        self._write_pieces_refs(pieces_refs)
+        if filepath not in pieces_refs['tracked']:
+            file_info = {
+                'filename': filepath,
+                'commits': []
+            }
+
+            pieces_refs['tracked'][filepath] = file_info
+            self._write_pieces_refs(pieces_refs)
 
     def index_file_lines(self, filepath: str) -> dict:
         """Numbers the lines of the file in a dictionary
