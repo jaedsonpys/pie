@@ -40,8 +40,8 @@ def main() -> int:
 
     # commit and file tracking
     parser.add_flag('-m', 'Adds a message to the commit')
-    parser.add_flag('-a', 'Selects all tracked files', action='store_true')
-    parser.add_flag('-A', 'Selects all files in the directory', action='store_true')
+    parser.add_flag('-a', 'Selects all tracked files to commit', action='store_true')
+    parser.add_flag('-A', 'Selects all files in the directory to track', action='store_true')
 
     # config
     parser.add_flag('--author', 'Repository author')
