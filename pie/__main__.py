@@ -128,6 +128,11 @@ def main() -> int:
                         if file not in tracked_files:
                             files_to_add.append(file)
 
+                if not files_to_add:
+                    print('\033[31merror: no file specified to track (use "pie add" argument and '
+                          'pass a list of files or use the "-A" flag to select all files)\033[m')
+                    return 1
+
                 for file in files_to_add:
                     try:
                         pie.track_file(file)
@@ -143,6 +148,11 @@ def main() -> int:
                     tracked_info = pie.get_tracked_files()
                     tracked_files = tracked_info.keys()
                     files.extend(tracked_files)
+
+                if not files:
+                    print('\033[31merror: no file specified to commit (use "pie commit" argument and '
+                          'pass a list of files or use the "-a" flag to select all tracked files)\033[m')
+                    return 1
 
                 if not message:
                     print('\033[33ma message to describe your commit is required.\033[m')
