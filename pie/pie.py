@@ -401,7 +401,7 @@ class Pie(object):
         pieces_refs = self._get_pieces_refs()
         return pieces_refs['commits']
 
-    def _file_has_changed(self, filepath: str) -> bool:
+    def file_has_changed(self, filepath: str) -> bool:
         previous_file_lines = self.join_file_changes(filepath)
         current_file_lines = self.index_file_lines(filepath)
 
@@ -432,7 +432,7 @@ class Pie(object):
                     'status': 'new'
                 })
             else:
-                file_has_changed = self._file_has_changed(filepath)
+                file_has_changed = self.file_has_changed(filepath)
                 
                 if file_has_changed:
                     files_status.append({
