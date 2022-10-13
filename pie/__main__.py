@@ -134,9 +134,15 @@ def main() -> int:
                     except FileNotFoundError:
                         print(f'\033[31merror: file "{file}" not found')
                         return 1
-            elif args.commit:
+            elif args.commit is not None:
                 files = args.commit
                 message = args.m
+                all_tracked_files_flag = args.a
+
+                if all_tracked_files_flag:
+                    tracked_info = pie.get_tracked_files()
+                    tracked_files = tracked_info.keys()
+                    files.extend(tracked_files)
 
                 if not message:
                     print('\033[33ma message to describe your commit is required.\033[m')
