@@ -146,8 +146,10 @@ def main() -> int:
 
                 if all_tracked_files_flag:
                     tracked_info = pie.get_tracked_files()
-                    tracked_files = tracked_info.keys()
-                    files.extend(tracked_files)
+
+                    for filepath in tracked_info.keys():
+                        if pie.file_has_changed(filepath):
+                            files.append(filepath)
 
                 if not files:
                     print('\033[31merror: no file specified to commit (use "pie commit" argument and '
