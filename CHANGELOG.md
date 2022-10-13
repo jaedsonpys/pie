@@ -108,3 +108,17 @@ Fix installation error in `setup.py` script.
 ## Major commits
 
 - [d2375f8](https://github.com/jaedsonpys/pie/commits/d2375f8): Fix installation error in `setup.py`.
+
+# 1.2.0
+
+Adding new flags to select files and fixing bugs
+
+## Major commits
+
+- [e7d38d6](https://github.com/jaedsonpys/pie/commits/e7d38d6): Getting all not ignored files with `-A` flag;
+- [fba2b8c](https://github.com/jaedsonpys/pie/commits/fba2b8c): Commit all tracked files with `-a` flag;
+- [a1b4dfa](https://github.com/jaedsonpys/pie/commits/a1b4dfa): Making `_file_has_changed` method public;
+- [66c9bf3](https://github.com/jaedsonpys/pie/commits/66c9bf3): Committing only changed files;
+- [50849a0](https://github.com/jaedsonpys/pie/commits/50849a0): Adding `-am` flag to commit all changed files and adding a message;
+- [f3e7c2e](https://github.com/jaedsonpys/pie/commits/f3e7c2e): Checking if the file is already being tracked in `track_file` method;
+- [fcfd2f8](https://github.com/jaedsonpys/pie/commits/fcfd2f8): Handling exception to `FileNotTrackedError`.
