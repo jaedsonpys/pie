@@ -480,7 +480,7 @@ class Pie(object):
                         'diff': self.index_file_lines(filepath),
                         'previous_hash': 0
                     }
-                else:
+                elif self.file_has_changed(filepath):
                     previous_hash = self._get_last_piece_hash(filepath)
                     lines_difference = self.get_file_difference(filepath)
 
