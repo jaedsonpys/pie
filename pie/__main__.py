@@ -16,7 +16,7 @@
 
 from argeasy import ArgEasy
 
-from . import exceptions
+from . import exceptions, ignore
 from .__init__ import __version__
 from .pie import Pie
 
@@ -40,7 +40,7 @@ def main() -> int:
     # commit and file tracking
     parser.add_flag('-m', 'Adds a message to the commit')
     # parser.add_flag('-a', 'Selects all tracked files', action='store_true')
-    # parser.add_flag('-A', 'Selects all files in the directory', action='store_true')
+    parser.add_flag('-A', 'Selects all files in the directory', action='store_true')
 
     # config
     parser.add_flag('--author', 'Repository author')
@@ -113,10 +113,15 @@ def main() -> int:
                     print(f'Date: {info["datetime"]}')
                     print(f'Changed files: {len(info["files"])}\n')
                     print(f'    {info["message"]}\n')
-            elif args.add:
-                files = args.add
+            elif args.add is not None:
+                files_to_add = args.add
+                all_files_flag = args.A
 
-                for file in files:
+                if all_files_flag:
+                    not_ignored_files = ignore.get_not_ignored_files()
+                    files_to_add.extend(not_ignored_files)
+
+                for file in files_to_add:
                     try:
                         pie.track_file(file)
                     except FileNotFoundError:
