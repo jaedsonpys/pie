@@ -1,7 +1,5 @@
 from setuptools import setup
 
-from pie import __version__
-
 with open('README.md', 'r') as reader:
     readme = reader.read()
 
@@ -14,7 +12,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/jaedsonpys/pie',
     license='GPL v3.0',
-    version=__version__,
+    version='1.1.0',
     packages=['pie'],
     python_requires='>=3.7',
     install_requires=['utokeniz==1.1.1', 'argeasy==2.0.1'],
