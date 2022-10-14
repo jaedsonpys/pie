@@ -111,7 +111,7 @@ Fix installation error in `setup.py` script.
 
 # 1.2.0
 
-Adding new flags to select files and fixing bugs
+Adding new flags to select files and fixing bugs.
 
 ## Major commits
 
@@ -122,3 +122,12 @@ Adding new flags to select files and fixing bugs
 - [50849a0](https://github.com/jaedsonpys/pie/commits/50849a0): Adding `-am` flag to commit all changed files and adding a message;
 - [f3e7c2e](https://github.com/jaedsonpys/pie/commits/f3e7c2e): Checking if the file is already being tracked in `track_file` method;
 - [fcfd2f8](https://github.com/jaedsonpys/pie/commits/fcfd2f8): Handling exception to `FileNotTrackedError`.
+
+# 1.2.1
+
+Updating project depedencies.
+
+## Major commits
+
+- [f03297e](https://github.com/jaedsonpys/pie/commits/f03297e): Updating project requirements;
+- [52d7585](https://github.com/jaedsonpys/pie/commits/52d7585): Changing author email flag namespace attribute.
