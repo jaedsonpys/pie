@@ -12,7 +12,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/jaedsonpys/pie',
     license='GPL v3.0',
-    version='1.2.0',
+    version='1.2.1',
     packages=['pie'],
     python_requires='>=3.7',
     install_requires=['utokeniz==1.1.1', 'argeasy==3.0.0'],
