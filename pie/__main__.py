@@ -55,7 +55,7 @@ def main() -> int:
     # creating repository
     if args.init:
         author = args.author
-        author_email = args.authoremail
+        author_email = args.author_email
 
         if not author or not author_email:
             print('\033[31merror: use the "--author" and "--author-email" flag to set the author information\033[m')
