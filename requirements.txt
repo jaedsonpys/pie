@@ -1,4 +1,3 @@
-argeasy==2.0.2
-bupytest==1.1.0
-pie-cli==1.0.1
+argeasy==3.0.0
+bupytest==1.1.1
 utokeniz==1.1.1

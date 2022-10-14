@@ -15,7 +15,7 @@ setup(
     version='1.2.0',
     packages=['pie'],
     python_requires='>=3.7',
-    install_requires=['utokeniz==1.1.1', 'argeasy==2.0.2'],
+    install_requires=['utokeniz==1.1.1', 'argeasy==3.0.0'],
     keywords=['version', 'control', 'versioning', 'file'],
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
