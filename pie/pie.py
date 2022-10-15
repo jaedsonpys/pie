@@ -45,10 +45,12 @@ class Pie(object):
         """Creating a new instance from Pie."""
 
         self.repository_path = os.path.join(os.getcwd(), '.pie')
+        self.pieces_dir = os.path.join(self.repository_path, 'pieces')
         self.repository_info_file = os.path.join(self.repository_path, '.info')
         self.author_info_file = os.path.join(self.repository_path, '.author')
+
         self.pieces_file = os.path.join(self.repository_path, 'pieces.json')
-        self.pieces_dir = os.path.join(self.repository_path, 'pieces')
+        self.hooks_info_file = os.path.join(self.repository_path, 'hooks.json')
 
     def check_repo_files(self) -> bool:
         """Checks all files in the repository
