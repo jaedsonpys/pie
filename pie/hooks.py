@@ -22,7 +22,7 @@ class Hooks(object):
 
     def _load_hooks(self) -> dict:
         with open(self._hooks_filepath, 'r') as reader:
-            hooks = reader.load(reader)
+            hooks = json.load(reader)
 
         return hooks
 
