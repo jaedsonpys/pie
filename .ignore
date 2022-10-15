@@ -5,7 +5,7 @@ CHANGELOG.md
 requirements.txt
 setup.py
 .gitignore
-DOCS/
+docs/
 README.md
 
 *.egg-info
