@@ -16,3 +16,11 @@ class Hooks(object):
 
         self._hooks = hooks
         return hooks
+
+    def execute_hook(self, action: str) -> int:
+        for hook in self._hooks:
+            if hook['action'] == action:
+                script = hook['script']
+                return os.system(script)
+
+        return 0
