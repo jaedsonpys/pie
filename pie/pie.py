@@ -95,6 +95,10 @@ class Pie(object):
         with open(self.repository_info_file, 'w') as writer:
             json.dump(repository_info, writer, indent=4)
 
+    def _write_hooks_info(self, hooks_info: dict) -> None:
+        with open(self.hooks_info_file, 'w') as writer:
+            json.dump(hooks_info, writer, indent=4)
+
     def _write_pieces_refs(self, pieces_refs: dict) -> None:
         with open(self.pieces_file, 'w') as writer:
             json.dump(pieces_refs, writer, indent=4)
@@ -141,8 +145,17 @@ class Pie(object):
             'commits': {}
         }
 
+        hooks_object = [
+            {
+                'action': 'example',
+                'script': './example.sh'
+            }
+        ]
+
         self._write_repo_info(repository_info)
         self._write_pieces_refs(pieces_object)
+        self._write_hooks_info(hooks_object)
+
         self._write_author_info(author, author_email)
 
     @repo_required
