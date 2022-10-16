@@ -20,6 +20,7 @@ from argeasy import ArgEasy
 from . import exceptions, ignore
 from .__init__ import __version__
 from .pie import Pie
+from .config import PieConfig
 
 
 def main() -> int:
@@ -37,6 +38,9 @@ def main() -> int:
 
     parser.add_argument('add', 'Adds a new file to the trace tree', action='append')
     parser.add_argument('commit', 'Commit a file added to the trace tree', action='append')
+
+    parser.add_argument('config', 'Configure local and global information', action='store_true')
+    parser.add_flag('--local', 'Configure local information', action='store_true')
 
     # commit and file tracking
     parser.add_flag('-m', 'Adds a message to the commit')
@@ -66,6 +70,26 @@ def main() -> int:
         except exceptions.RepositoryExistsError:
             print('\033[31merror: a repository already exists in this directory\033[m')
             return 1
+    elif args.config:
+        local_flag = args.local
+        pie_config = PieConfig()
+
+        author = args.author
+        author_email = args.author_email
+
+        if not author or not author_email:
+            print('\033[31merror: use the "--author" and "--author-email" flag to set the author information\033[m')
+            return 1
+
+        if local_flag:
+            if not pie.check_repo_files():
+                print('\033[31merror: repository not found\033[m')
+                print('(use "pie init" to create a new repository)')
+                return 1
+
+            pie.write_author_info(author, author_email)
+        else:
+            pie_config.write_author_info(author, author_email)
     else:
         try:
             if args.status:  # print files status
