@@ -35,9 +35,20 @@ class Hooks(object):
         :rtype: int
         """
 
-        for hook in self._load_hooks():
-            if hook['action'] == action:
-                script = hook['script']
-                return os.system(script)
+        def check_hook(func):
+            def decorator(*args, **kwargs):
+                for hook in self._load_hooks():
+                    if hook['action'] == action:
+                        script = hook['script']
+                        code = os.system(script)
 
-        return 0
+                        if code == 0:
+                            return func(*args, **kwargs)
+                        else:
+                            return False
+
+                return func(*args, **kwargs)
+
+            return decorator
+
+        return check_hook
