@@ -28,6 +28,14 @@ import utoken
 from . import exceptions
 from .ignore import get_not_ignored_files
 
+REPOSITORY_PATH = os.path.join(os.getcwd(), '.pie')
+PIECES_DIR = os.path.join(REPOSITORY_PATH, 'pieces')
+REPOSITORY_INFO_FILEPATH = os.path.join(REPOSITORY_PATH, '.info')
+AUTHOR_INFO_FILEPATH = os.path.join(REPOSITORY_PATH, '.author')
+
+PIECES_FILEPATH = os.path.join(REPOSITORY_PATH, 'pieces.json')
+HOOKS_INFO_FILEPATH = os.path.join(REPOSITORY_PATH, 'hooks.json')
+
 
 def repo_required(method):
     @wraps(method)
@@ -44,14 +52,6 @@ class Pie(object):
     def __init__(self) -> None:
         """Creating a new instance from Pie."""
 
-        self.repository_path = os.path.join(os.getcwd(), '.pie')
-        self.pieces_dir = os.path.join(self.repository_path, 'pieces')
-        self.repository_info_file = os.path.join(self.repository_path, '.info')
-        self.author_info_file = os.path.join(self.repository_path, '.author')
-
-        self.pieces_file = os.path.join(self.repository_path, 'pieces.json')
-        self.hooks_info_file = os.path.join(self.repository_path, 'hooks.json')
-
     def check_repo_files(self) -> bool:
         """Checks all files in the repository
         and returns `True` if all are present.
@@ -61,50 +61,50 @@ class Pie(object):
         """
 
         files = [
-            os.path.isdir(self.repository_path),
-            os.path.isfile(self.repository_info_file),
-            os.path.isfile(self.author_info_file),
-            os.path.isdir(self.pieces_dir),
-            os.path.isfile(self.pieces_file),
+            os.path.isdir(REPOSITORY_PATH),
+            os.path.isfile(REPOSITORY_INFO_FILEPATH),
+            os.path.isfile(AUTHOR_INFO_FILEPATH),
+            os.path.isdir(PIECES_DIR),
+            os.path.isfile(PIECES_FILEPATH),
         ]
 
         return all(files)
 
     @repo_required
     def _get_repo_info(self) -> dict:
-        with open(self.repository_info_file, 'r') as reader:
+        with open(REPOSITORY_INFO_FILEPATH, 'r') as reader:
             repo_info = json.load(reader)
 
         return repo_info
 
     @repo_required
     def _get_pieces_refs(self) -> dict:
-        with open(self.pieces_file, 'r') as reader:
+        with open(PIECES_FILEPATH, 'r') as reader:
             pieces_refs = json.load(reader)
 
         return pieces_refs
 
     @repo_required
     def _get_author_info(self) -> dict:
-        with open(self.author_info_file, 'r') as reader:
+        with open(AUTHOR_INFO_FILEPATH, 'r') as reader:
             author_info = json.load(reader)
 
         return author_info
 
     def _write_repo_info(self, repository_info: dict) -> None:
-        with open(self.repository_info_file, 'w') as writer:
+        with open(REPOSITORY_INFO_FILEPATH, 'w') as writer:
             json.dump(repository_info, writer, indent=4)
 
     def _write_hooks_info(self, hooks_info: dict) -> None:
-        with open(self.hooks_info_file, 'w') as writer:
+        with open(HOOKS_INFO_FILEPATH, 'w') as writer:
             json.dump(hooks_info, writer, indent=4)
 
     def _write_pieces_refs(self, pieces_refs: dict) -> None:
-        with open(self.pieces_file, 'w') as writer:
+        with open(PIECES_FILEPATH, 'w') as writer:
             json.dump(pieces_refs, writer, indent=4)
 
     def _write_author_info(self, author: str, author_email: str) -> None:
-        with open(self.author_info_file, 'w') as writer:
+        with open(AUTHOR_INFO_FILEPATH, 'w') as writer:
             author_info = {
                 'author': author, 'author_email': author_email
             }
@@ -127,11 +127,11 @@ class Pie(object):
         :raises exceptions.RepositoryExistsError: Thrown if repository already exists.
         """
 
-        if os.path.isdir(self.repository_path):
-            raise exceptions.RepositoryExistsError(f'Repository exists in "{self.repository_path}"')
+        if os.path.isdir(REPOSITORY_PATH):
+            raise exceptions.RepositoryExistsError(f'Repository exists in "{REPOSITORY_PATH}"')
 
-        os.mkdir(self.repository_path)
-        os.mkdir(self.pieces_dir)
+        os.mkdir(REPOSITORY_PATH)
+        os.mkdir(PIECES_DIR)
 
         key = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
 
@@ -308,7 +308,7 @@ class Pie(object):
         for commit_id in file['commits']:
             commit_info = commits[commit_id]
             piece_id = commit_info['files'][filepath]
-            piece_filepath = os.path.join(self.pieces_dir, piece_id)
+            piece_filepath = os.path.join(PIECES_DIR, piece_id)
 
             with open(piece_filepath, 'r') as reader:
                 piece_token = reader.read()
@@ -379,7 +379,7 @@ class Pie(object):
         piece_info = utoken.encode(piece_info, repo_info['key'])
 
         piece_id = hashlib.md5(secrets.token_bytes(32)).hexdigest()
-        piece_path = os.path.join(self.pieces_dir, piece_id)
+        piece_path = os.path.join(PIECES_DIR, piece_id)
 
         with open(piece_path, 'w') as writer:
             writer.write(piece_info)
@@ -396,7 +396,7 @@ class Pie(object):
 
         commit_info = commits[last_commit_id]
         piece_id = commit_info['files'][filepath]
-        piece_filepath = os.path.join(self.pieces_dir, piece_id)
+        piece_filepath = os.path.join(PIECES_DIR, piece_id)
 
         with open(piece_filepath, 'r') as reader:
             piece_token = reader.read()
