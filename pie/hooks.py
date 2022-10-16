@@ -1,5 +1,6 @@
 import os
 import json
+from types import FunctionType
 
 from . import exceptions
 
@@ -28,7 +29,7 @@ class Hooks(object):
 
         return hooks
 
-    def run_hook(self, action: str) -> function:
+    def run_hook(self, action: str) -> FunctionType:
         """Run the specified action hook script.
 
         :param action: Hook action
