@@ -26,7 +26,7 @@ class Hooks(object):
 
         return hooks
 
-    def execute_hook(self, action: str) -> int:
+    def run_hook(self, action: str) -> int:
         """Run the specified action hook script.
 
         :param action: Hook action
