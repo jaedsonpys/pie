@@ -63,14 +63,19 @@ def main() -> int:
         author = args.author
         author_email = args.author_email
 
-        global_author_info = pie_config.get_author_info()
-        global_author = global_author_info['author']
-        global_author_email = global_author_info['author_email']
+        if not author and not author_email:
+            global_author_info = pie_config.get_author_info()
+            global_author = global_author_info['author']
+            global_author_email = global_author_info['author_email']
 
-        if global_author and global_author_email:
-            author = global_author
-            author_email = global_author_email
-        elif not author or not author_email:
+            if global_author and global_author_email:
+                author = global_author
+                author_email = global_author_email
+            else:
+                print('\033[31merror: use the "--author" and "--author-email" flag to set the author information\033[m')
+                return 1
+
+        if not author or not author_email:
             print('\033[31merror: use the "--author" and "--author-email" flag to set the author information\033[m')
             return 1
 
