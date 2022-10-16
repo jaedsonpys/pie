@@ -23,3 +23,9 @@ class PieConfig(object):
     def write_author_info(self, author_info: dict) -> None:
         with open(self._config_author_filepath, 'w') as writer:
             json.dump(author_info, writer, indent=4)
+    
+    def get_author_info(self) -> dict:
+        with open(self._config_author_filepath, 'r') as reader:
+            author = json.load(reader)
+
+        return author
