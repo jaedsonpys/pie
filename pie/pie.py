@@ -88,7 +88,7 @@ class Pie(object):
         return pieces_refs
 
     @repo_required
-    def _get_author_info(self) -> dict:
+    def get_author_info(self) -> dict:
         with open(AUTHOR_INFO_FILEPATH, 'r') as reader:
             author_info = json.load(reader)
 
@@ -106,7 +106,7 @@ class Pie(object):
         with open(PIECES_FILEPATH, 'w') as writer:
             json.dump(pieces_refs, writer, indent=4)
 
-    def _write_author_info(self, author: str, author_email: str) -> None:
+    def write_author_info(self, author: str, author_email: str) -> None:
         with open(AUTHOR_INFO_FILEPATH, 'w') as writer:
             author_info = {
                 'author': author, 'author_email': author_email
@@ -159,7 +159,7 @@ class Pie(object):
         self._write_pieces_refs(pieces_object)
         self._write_hooks_info(hooks_object)
 
-        self._write_author_info(author, author_email)
+        self.write_author_info(author, author_email)
 
     @repo_required
     def get_tracked_files(self) -> dict:
@@ -344,7 +344,7 @@ class Pie(object):
 
     @repo_required
     def _create_commit(self, files_refs: dict, message: str) -> Union[dict, str]:
-        author_info = self._get_author_info()
+        author_info = self.get_author_info()
         pieces_refs = self._get_pieces_refs()
 
         files = {}
