@@ -8,8 +8,8 @@ class PieConfig(object):
         self._config_dirpath = os.path.join(self._home_dirpath, '.pie-config')
         self._config_author_filepath = os.path.join(self._config_dirpath, 'author.json')
 
-        if not os.path.isdir(self._pie_config_dirpath):
-            os.mkdir(self._pie_config_dirpath)
+        if not os.path.isdir(self._config_dirpath):
+            os.mkdir(self._config_dirpath)
             self.write_author_info(author=None, author_email=None)  
         else:
             if not os.path.isfile(self._config_author_filepath):
