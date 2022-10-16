@@ -131,3 +131,13 @@ Updating project depedencies.
 
 - [f03297e](https://github.com/jaedsonpys/pie/commits/f03297e): Updating project requirements;
 - [52d7585](https://github.com/jaedsonpys/pie/commits/52d7585): Changing author email flag namespace attribute.
+
+# 1.3.0
+
+Adding Pie `hooks`.
+
+## Major commits
+
+- [96ca518](https://github.com/jaedsonpys/pie/commits/96ca518): Creating `Hooks` class;
+- [fc7208e](https://github.com/jaedsonpys/pie/commits/fc7208e): Turning Pie class attribute into global constants;
+- [8182b65](https://github.com/jaedsonpys/pie/commits/8182b65): Adding decorator in methods to run hooks before execute action.
