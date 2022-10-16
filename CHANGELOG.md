@@ -134,10 +134,13 @@ Updating project depedencies.
 
 # 1.3.0
 
-Adding Pie `hooks`.
+Adding **Pie Hooks** and global configuration of author information.
 
 ## Major commits
 
 - [96ca518](https://github.com/jaedsonpys/pie/commits/96ca518): Creating `Hooks` class;
 - [fc7208e](https://github.com/jaedsonpys/pie/commits/fc7208e): Turning Pie class attribute into global constants;
 - [8182b65](https://github.com/jaedsonpys/pie/commits/8182b65): Adding decorator in methods to run hooks before execute action.
+- [376fc8a](https://github.com/jaedsonpys/pie/commits/376fc8a): Adding `PieConfig` class;
+- [109c3bd](https://github.com/jaedsonpys/pie/commits/109c3bd): Making `write_author_info` and `get_author_info` methods public.
+- [d3b0b02](https://github.com/jaedsonpys/pie/commits/d3b0b02): Adding `config` argument to config author information.
