@@ -54,14 +54,23 @@ def main() -> int:
     parser.add_flag('--author-email', 'Repository author email')
 
     args = parser.parse()
+
     pie = Pie()
+    pie_config = PieConfig()
 
     # creating repository
     if args.init:
         author = args.author
         author_email = args.author_email
 
-        if not author or not author_email:
+        global_author_info = pie_config.get_author_info()
+        global_author = global_author_info['author']
+        global_author_email = global_author_info['author_email']
+
+        if global_author and global_author_email:
+            author = global_author
+            author_email = global_author_email
+        elif not author or not author_email:
             print('\033[31merror: use the "--author" and "--author-email" flag to set the author information\033[m')
             return 1
 
@@ -72,7 +81,6 @@ def main() -> int:
             return 1
     elif args.config:
         local_flag = args.local
-        pie_config = PieConfig()
 
         author = args.author
         author_email = args.author_email
