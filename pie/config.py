@@ -15,11 +15,11 @@ class PieConfig(object):
 
         if not os.path.isdir(self._pie_config_dirpath):
             os.mkdir(self._pie_config_dirpath)
-            self.write_author_config(author_info)  
+            self.write_author_info(author_info)  
         else:
             if not os.path.isfile(self._config_author_filepath):
-                self.write_author_config(author_info)
+                self.write_author_info(author_info)
 
-    def write_author_config(self, author_info: dict) -> None:
+    def write_author_info(self, author_info: dict) -> None:
         with open(self._config_author_filepath, 'w') as writer:
             json.dump(author_info, writer, indent=4)
