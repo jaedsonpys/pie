@@ -20,12 +20,12 @@ class Hooks(object):
 
         self._hooks_filepath = hooks_filepath
 
-        if not os.path.isfile(hooks_filepath):
-            raise FileNotFoundError(f'File "{hooks_filepath}" not exists')
-
     def _load_hooks(self) -> dict:
-        with open(self._hooks_filepath, 'r') as reader:
-            hooks = json.load(reader)
+        try:
+            with open(self._hooks_filepath, 'r') as reader:
+                hooks = json.load(reader)
+        except FileNotFoundError:
+            hooks = []
 
         return hooks
 
