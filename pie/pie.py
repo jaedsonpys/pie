@@ -27,6 +27,7 @@ import utoken
 
 from . import exceptions
 from .ignore import get_not_ignored_files
+from .hooks import Hooks
 
 REPOSITORY_PATH = os.path.join(os.getcwd(), '.pie')
 PIECES_DIR = os.path.join(REPOSITORY_PATH, 'pieces')
@@ -35,6 +36,8 @@ AUTHOR_INFO_FILEPATH = os.path.join(REPOSITORY_PATH, '.author')
 
 PIECES_FILEPATH = os.path.join(REPOSITORY_PATH, 'pieces.json')
 HOOKS_INFO_FILEPATH = os.path.join(REPOSITORY_PATH, 'hooks.json')
+
+hooks = Hooks(HOOKS_INFO_FILEPATH)
 
 
 def repo_required(method):
@@ -171,6 +174,7 @@ class Pie(object):
         return pieces_refs['tracked']
 
     @repo_required
+    @hooks.run_hook('track-file')
     def track_file(self, filepath: str) -> None:
         """Adds a new file to the trace.
 
@@ -470,6 +474,7 @@ class Pie(object):
         return files_status
 
     @repo_required
+    @hooks.run_hook('commit')
     def commit(self, filepath_list: list, message: str) -> Union[dict, str]:
         """Commit the files.
 
@@ -527,6 +532,7 @@ class Pie(object):
             return False
 
     @repo_required
+    @hooks.run_hook('merge')
     def merge(self) -> list:
         """Merge all committed files.
 
