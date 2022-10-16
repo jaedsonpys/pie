@@ -40,7 +40,7 @@ class TestPie(bupytest.UnitTest):
         self.assert_true(os.path.isfile('.pie/.info'))
 
         repository_info = self.pie._get_repo_info()
-        author_info = self.pie._get_author_info()
+        author_info = self.pie.get_author_info()
 
         self.assert_expected(author_info['author'], author)
         self.assert_expected(author_info['author_email'], author_email)
