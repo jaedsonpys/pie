@@ -202,5 +202,8 @@ def main() -> int:
         except exceptions.RepositoryNotExistsError:
             print('\033[31merror: no ".pie" repository found in this directory\033[m')
             return 1
+        except exceptions.HookFailedError as err:
+            print(f'\033[31m{err.args[0]}\033[m')
+            return 1
 
     return 0
