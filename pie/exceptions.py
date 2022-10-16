@@ -38,3 +38,8 @@ class NoFilesToCommitError(Exception):
 class RepositoryNotExistsError(Exception):
     def __init__(self, *args):
         super().__init__(*args)
+
+
+class HookFailedError(Exception):
+    def __init__(self, *args):
+        super().__init__(*args)

@@ -1,6 +1,8 @@
 import os
 import json
 
+from . import exceptions
+
 
 class Hooks(object):
     def __init__(self, hooks_filepath: str) -> None:
@@ -26,7 +28,7 @@ class Hooks(object):
 
         return hooks
 
-    def run_hook(self, action: str) -> int:
+    def run_hook(self, action: str) -> function:
         """Run the specified action hook script.
 
         :param action: Hook action
@@ -45,7 +47,7 @@ class Hooks(object):
                         if code == 0:
                             return func(*args, **kwargs)
                         else:
-                            return False
+                            raise exceptions.HookFailedError(f'Hook to "{hook["action"]}" failed.')
 
                 return func(*args, **kwargs)
 
