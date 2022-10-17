@@ -136,6 +136,9 @@ class Pie(object):
         os.mkdir(REPOSITORY_PATH)
         os.mkdir(PIECES_DIR)
 
+        # the key is used to encode and decode
+        # UToken tokens.
+
         key = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
 
         repository_info = {
@@ -214,8 +217,8 @@ class Pie(object):
 
         file_lines = {}
 
-        # removing "\n" only from the end of the line
         for line, text in enumerate(file):
+            # removing "\n" only from the end of the line
             if text[-1::] == '\n':
                 text = text[:-1]
 
