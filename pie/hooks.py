@@ -32,10 +32,14 @@ class Hooks(object):
     def run_hook(self, action: str) -> FunctionType:
         """Run the specified action hook script.
 
-        :param action: Hook action
+        This method returns a `decorator`, which will
+        check the hook script's exit status, throwing
+        the `HookFailedError` exception.
+
+        :param action: Hook action to be executed.
         :type action: str
-        :return: Script status code.
-        :rtype: int
+        :return: A decorator to check script.
+        :rtype: FunctionType
         """
 
         def check_hook(func):
