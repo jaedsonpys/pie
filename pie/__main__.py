@@ -104,6 +104,7 @@ def main() -> int:
         else:
             pie_config.write_author_info(author, author_email)
     else:
+        # catch exception for all arguments below
         try:
             if args.status:  # print files status
                 status = pie.get_files_status()
