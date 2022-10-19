@@ -35,6 +35,7 @@ def get_ignored_files() -> list:
 
     ignored_files.append('.pie')
     ignored_files.append('venv')
+    ignored_files.append('node_modules')
 
     return ignored_files
 
