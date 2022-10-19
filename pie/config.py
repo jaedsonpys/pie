@@ -16,6 +16,15 @@ class PieConfig(object):
                 self.write_author_info(author=None, author_email=None)  
 
     def write_author_info(self, author: str, author_email: str) -> None:
+        """Write author name and author email
+        in `.pie-config` directory.
+
+        :param author: Author name.
+        :type author: str
+        :param author_email: Author email.
+        :type author_email: str
+        """
+
         author_info = {
             'author': author,
             'author_email': author_email
@@ -25,6 +34,13 @@ class PieConfig(object):
             json.dump(author_info, writer, indent=4)
 
     def get_author_info(self) -> dict:
+        """Get author information in a
+        dictionary.
+
+        :return: Author information
+        :rtype: dict
+        """
+
         with open(self._config_author_filepath, 'r') as reader:
             author = json.load(reader)
 
