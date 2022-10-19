@@ -555,7 +555,8 @@ class Pie(object):
 
             for filepath in tracked_files.keys():
                 future = executor.submit(self._merge_file, filepath)
-                future.add_done_callback(lambda fn: merged_files.append(fn.result()) if fn.result() else None)
+                callback = lambda fn: merged_files.append(fn.result()) if fn.result() else None
+                future.add_done_callback(callback)
                 threads.append(future)
 
             while not all([i.done() for i in threads]):
