@@ -144,3 +144,14 @@ Adding **Pie Hooks** and global configuration of author information.
 - [376fc8a](https://github.com/jaedsonpys/pie/commits/376fc8a): Adding `PieConfig` class;
 - [109c3bd](https://github.com/jaedsonpys/pie/commits/109c3bd): Making `write_author_info` and `get_author_info` methods public.
 - [d3b0b02](https://github.com/jaedsonpys/pie/commits/d3b0b02): Adding `config` argument to config author information.
+
+# 1.3.1
+
+Adding method documentation and ignoring default directories.
+
+## Major commits
+
+- [62e7e37](https://github.com/jaedsonpys/pie/commits/62e7e37): Adding `node_modules/` directory to default ignored files;
+- [3cf1286](https://github.com/jaedsonpys/pie/commits/3cf1286): Updating `run_hook` method docstring;
+- [94663dc](https://github.com/jaedsonpys/pie/commits/94663dc): Adding docstring to methods in `PieConfig` class;
+- [b1b865d](https://github.com/jaedsonpys/pie/commits/b1b865d): Adding lambda function to `callback` variable.
