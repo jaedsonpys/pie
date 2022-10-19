@@ -15,7 +15,7 @@ A version control **written in Python** designed to be simple and complete, with
 - Get the changed lines between files;
 - Creating hooks to execute scripts.
 
-To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/pie/tree/master/DOCS). Install `Pie` using the pip package manager:
+To learn how to use `Pie`, see the [full documentation here](https://github.com/jaedsonpys/pie/tree/master/docs). Install `Pie` using the pip package manager:
 
 ```
 pip install pie-cli
