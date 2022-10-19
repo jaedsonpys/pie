@@ -550,11 +550,6 @@ class Pie(object):
         tracked_files = self.get_tracked_files()
         merged_files = []
 
-        # def callback(fn: futures.Future):
-        #     result = fn.result()
-        #     if result:
-        #         merged_files.append(result)
-
         with futures.ThreadPoolExecutor() as executor:
             threads = []
 
