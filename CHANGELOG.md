@@ -155,3 +155,11 @@ Adding method documentation and ignoring default directories.
 - [3cf1286](https://github.com/jaedsonpys/pie/commits/3cf1286): Updating `run_hook` method docstring;
 - [94663dc](https://github.com/jaedsonpys/pie/commits/94663dc): Adding docstring to methods in `PieConfig` class;
 - [b1b865d](https://github.com/jaedsonpys/pie/commits/b1b865d): Adding lambda function to `callback` variable.
+
+# 1.3.2
+
+Updating development status.
+
+## Major commits
+
+- [b58fdd2](https://github.com/jaedsonpys/pie/commits/b58fdd2): Updating development status.
